@@ -111,6 +111,57 @@ class AlphaMainScreen extends StatefulWidget {
 class _AlphaMainScreenState extends State<AlphaMainScreen> {
   int _currentIndex = 0;
 
+  void _showServerConfigDialog(BuildContext context) {
+    final connection = context.read<ConnectionProvider>();
+    final controller = TextEditingController(text: connection.backendBaseUrl);
+
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: AlphaColors.surfaceLevel2,
+        title: const Text('Backend Server Connection', style: TextStyle(color: AlphaColors.textPrimary, fontSize: 16)),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Enter your PC IP address (e.g. http://192.168.1.18:8765):',
+              style: TextStyle(color: AlphaColors.textSecondary, fontSize: 13),
+            ),
+            const SizedBox(height: 12),
+            TextField(
+              controller: controller,
+              style: AlphaTheme.monoStyle.copyWith(color: AlphaColors.primaryCyanNeon, fontSize: 14),
+              decoration: const InputDecoration(
+                hintText: 'http://192.168.1.18:8765',
+                border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.wifi, color: AlphaColors.primaryCyan),
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              final newUrl = controller.text.trim();
+              if (newUrl.isNotEmpty) {
+                final wsUrl = newUrl.replaceFirst('http://', 'ws://').replaceFirst('https://', 'wss://') + '/ws';
+                connection.updateEndpoints(baseUrl: newUrl, wsUrl: wsUrl);
+                connection.checkHealth();
+                Navigator.pop(ctx);
+              }
+            },
+            child: const Text('Connect'),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -178,7 +229,9 @@ class _AlphaMainScreenState extends State<AlphaMainScreen> {
                       ? 'CONNECTING'
                       : 'OFFLINE';
 
-              return Container(
+              return GestureDetector(
+                onTap: () => _showServerConfigDialog(context),
+                child: Container(
                 margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                 decoration: BoxDecoration(
@@ -216,6 +269,7 @@ class _AlphaMainScreenState extends State<AlphaMainScreen> {
                     ),
                   ],
                 ),
+              ),
               );
             },
           ),
