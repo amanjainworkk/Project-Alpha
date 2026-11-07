@@ -44,7 +44,7 @@ class AlphaWebSocketService {
 
   void updateHost(String newHost) {
     host = _normalizeHost(newHost);
-    reconnect();
+    connect();
   }
 
   /// Bearer token for query-based WebSocket handshake authentication.
