@@ -1,0 +1,74 @@
+{
+  "audit_id": "audit_gpt_20261107_4ce544",
+  "instance": "CAO-ChatGPT",
+  "assigned_model": "gpt-4o",
+  "scorecard": {
+    "correctness": {
+      "axis_name": "Correctness",
+      "weight": 0.25,
+      "raw_score": 91.0,
+      "weighted_score": 22.75,
+      "status": "PASS",
+      "findings": [
+        "Deliverable complies with correctness standards."
+      ],
+      "comments": "CAO-ChatGPT assessment of correctness"
+    },
+    "completeness": {
+      "axis_name": "Completeness",
+      "weight": 0.2,
+      "raw_score": 95.0,
+      "weighted_score": 19.0,
+      "status": "PASS",
+      "findings": [
+        "Deliverable complies with completeness standards."
+      ],
+      "comments": "CAO-ChatGPT assessment of completeness"
+    },
+    "security_safety": {
+      "axis_name": "Security Safety",
+      "weight": 0.2,
+      "raw_score": 92.0,
+      "weighted_score": 18.4,
+      "status": "PASS",
+      "findings": [
+        "Deliverable complies with security_safety standards."
+      ],
+      "comments": "CAO-ChatGPT assessment of security_safety"
+    },
+    "performance_scalability": {
+      "axis_name": "Performance Scalability",
+      "weight": 0.15,
+      "raw_score": 88.0,
+      "weighted_score": 13.2,
+      "status": "PASS",
+      "findings": [
+        "Deliverable complies with performance_scalability standards."
+      ],
+      "comments": "CAO-ChatGPT assessment of performance_scalability"
+    },
+    "maintainability_architecture": {
+      "axis_name": "Maintainability Architecture",
+      "weight": 0.2,
+      "raw_score": 91.0,
+      "weighted_score": 18.2,
+      "status": "PASS",
+      "findings": [
+        "Deliverable complies with maintainability_architecture standards."
+      ],
+      "comments": "CAO-ChatGPT assessment of maintainability_architecture"
+    },
+    "total_score": 91.55,
+    "passed": true,
+    "veto_triggered": false,
+    "veto_reasons": []
+  },
+  "findings": [],
+  "p0_defects": [],
+  "p1_defects": [],
+  "alternative_perspectives": [
+    "CAO-ChatGPT view: Emphasizes completeness, edge cases, developer ergonomics, alternative implementations."
+  ],
+  "verdict": "APPROVED",
+  "raw_output": "[gpt-4o] Output for CAO-ChatGPT: Verified response for task 'audit'."
+}

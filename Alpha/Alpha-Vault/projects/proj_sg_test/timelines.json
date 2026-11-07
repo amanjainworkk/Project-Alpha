@@ -1,0 +1,99 @@
+{
+  "project_id": "proj_sg_test",
+  "tasks": {
+    "T-01": {
+      "task_id": "T-01",
+      "title": "Product Requirements & Scope Definition",
+      "lead_agent": "CPO",
+      "dependencies": [],
+      "duration": 2.0,
+      "es": 0.0,
+      "ef": 2.0,
+      "ls": 0.0,
+      "lf": 2.0,
+      "slack": 0.0,
+      "free_slack": 0.0,
+      "is_critical": true,
+      "wave": 0
+    },
+    "T-02": {
+      "task_id": "T-02",
+      "title": "Technical Architecture & System Specification",
+      "lead_agent": "CTO",
+      "dependencies": [
+        "T-01"
+      ],
+      "duration": 3.0,
+      "es": 2.0,
+      "ef": 5.0,
+      "ls": 2.0,
+      "lf": 5.0,
+      "slack": 0.0,
+      "free_slack": 0.0,
+      "is_critical": true,
+      "wave": 1
+    },
+    "T-03": {
+      "task_id": "T-03",
+      "title": "UI/UX Design System & Layout Tokens",
+      "lead_agent": "CDO",
+      "dependencies": [
+        "T-01"
+      ],
+      "duration": 2.0,
+      "es": 2.0,
+      "ef": 4.0,
+      "ls": 3.0,
+      "lf": 5.0,
+      "slack": 1.0,
+      "free_slack": 1.0,
+      "is_critical": false,
+      "wave": 1
+    },
+    "T-04": {
+      "task_id": "T-04",
+      "title": "Executive Delivery & Founder Synthesis",
+      "lead_agent": "CEO",
+      "dependencies": [
+        "T-01",
+        "T-02",
+        "T-03"
+      ],
+      "duration": 1.0,
+      "es": 5.0,
+      "ef": 6.0,
+      "ls": 5.0,
+      "lf": 6.0,
+      "slack": 0.0,
+      "free_slack": 0.0,
+      "is_critical": true,
+      "wave": 2
+    }
+  },
+  "topological_order": [
+    "T-01",
+    "T-02",
+    "T-03",
+    "T-04"
+  ],
+  "critical_path": [
+    "T-01",
+    "T-02",
+    "T-04"
+  ],
+  "total_duration": 6.0,
+  "execution_waves": [
+    [
+      "T-01"
+    ],
+    [
+      "T-02",
+      "T-03"
+    ],
+    [
+      "T-04"
+    ]
+  ],
+  "has_cycles": false,
+  "cycle_path": null
+}

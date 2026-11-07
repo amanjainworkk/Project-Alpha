@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  alpha-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: alpha_backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+      - "8001:8001"
+    environment:
+      - ALPHA_OFFLINE=1
+      - ALPHA_PROVIDER=ollama
+      - DEFAULT_MODEL=llama3.2:1b
+      - ALPHA_EMBEDDINGS=mock
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+    volumes:
+      - alpha_vault_data:/app/Alpha-Vault
+      - ./logs:/app/logs
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+volumes:
+  alpha_vault_data:
+    driver: local

@@ -1,0 +1,50 @@
+# Python & Virtual Environments
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+test_venv/
+venv/
+env/
+.env.local
+
+# Databases & Local Vault State
+Alpha-Vault/*.db
+Alpha-Vault/*.db-journal
+Alpha-Vault/chroma/
+*.db
+*.sqlite3
+
+# Logs & Secrets
+*.log
+logs/
+.env
+
+# Testing & Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Subagent Scratch & Working State
+.agents/teamwork/orchestrator/
+.agents/teamwork/explorer_*/
+.agents/teamwork/worker_*/
+.agents/teamwork/reviewer_*/
+.agents/teamwork/challenger_*/
+.agents/teamwork/auditor_*/
+
+# Flutter / Dart Build Outputs
+Alpha/apk/.dart_tool/
+Alpha/apk/.packages
+Alpha/apk/build/
+Alpha/apk/.flutter-plugins
+Alpha/apk/.flutter-plugins-dependencies
+
+# IDE & OS
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db

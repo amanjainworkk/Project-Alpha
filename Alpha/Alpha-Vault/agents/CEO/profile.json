@@ -1,0 +1,51 @@
+{
+  "agent_id": "CEO",
+  "role": "Chief Executive Officer",
+  "full_title": "Chief Executive Officer",
+  "version": "1.0.0",
+  "created_date": "2026-11-07T13:37:40.150837+00:00",
+  "jd_file": "CEO-Chief-Executive-Officer.md",
+  "assigned_model": {
+    "default": "llama3.2",
+    "simple_tasks": "llama3.2",
+    "complex_tasks": "llama3.2"
+  },
+  "skills": [
+    "Goal Decomposition",
+    "Workstream Planning",
+    "Agent Delegation",
+    "Executive Synthesis"
+  ],
+  "communication_style": "executive, structured",
+  "vault_read_access": [
+    "*"
+  ],
+  "vault_write_access": [
+    "agents/CEO/*",
+    "projects/*"
+  ],
+  "peers": [
+    "CTO",
+    "CMO",
+    "CPO",
+    "CDO",
+    "CFO",
+    "COO",
+    "CHRO",
+    "CIO",
+    "CSO",
+    "CLO",
+    "CAO-Claude",
+    "CAO-ChatGPT",
+    "CAO"
+  ],
+  "reports_to": "Founder",
+  "status": "active",
+  "total_projects_completed": 0,
+  "specializations": [
+    "Goal Decomposition",
+    "Workstream Planning",
+    "Agent Delegation",
+    "Executive Synthesis"
+  ]
+}

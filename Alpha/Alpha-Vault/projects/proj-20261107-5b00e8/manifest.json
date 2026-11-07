@@ -1,0 +1,29 @@
+{
+  "project_id": "proj-20261107-5b00e8",
+  "name": "Lifecycle Test",
+  "user_goal": "Test status updates",
+  "created_at": "2026-11-07T07:47:05.347895+00:00",
+  "updated_at": "2026-11-07T07:47:06.005423+00:00",
+  "status": "in_progress",
+  "assigned_agents": [
+    "CEO"
+  ],
+  "lead_agent": "CEO",
+  "priority": "medium",
+  "deadline": null,
+  "deliverables_expected": [],
+  "deliverables_completed": [],
+  "audit_status": "pending",
+  "user_approved": null,
+  "parent_project": null,
+  "tags": [],
+  "status_history": [
+    {
+      "from_status": "planning",
+      "to_status": "in_progress",
+      "agent_id": "CEO",
+      "note": "Workstreams initiated",
+      "timestamp": "2026-11-07T07:47:06.005423+00:00"
+    }
+  ]
+}

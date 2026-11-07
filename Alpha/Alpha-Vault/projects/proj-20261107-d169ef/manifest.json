@@ -1,0 +1,31 @@
+{
+  "project_id": "proj-20261107-d169ef",
+  "name": "Autonomous Market Expansion Engine",
+  "user_goal": "Deploy competitive intelligence crawler and market analysis agents",
+  "created_at": "2026-11-07T07:47:07.060446+00:00",
+  "updated_at": "2026-11-07T07:47:07.803942+00:00",
+  "status": "in_audit",
+  "assigned_agents": [
+    "CEO",
+    "CMO",
+    "CTO"
+  ],
+  "lead_agent": "CEO",
+  "priority": "critical",
+  "deadline": null,
+  "deliverables_expected": [],
+  "deliverables_completed": [],
+  "audit_status": "pending",
+  "user_approved": null,
+  "parent_project": null,
+  "tags": [],
+  "status_history": [
+    {
+      "from_status": "planning",
+      "to_status": "in_audit",
+      "agent_id": "CEO",
+      "note": "Deliverables ready for CAO",
+      "timestamp": "2026-11-07T07:47:07.803942+00:00"
+    }
+  ]
+}

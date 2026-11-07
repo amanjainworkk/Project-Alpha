@@ -1,0 +1,21 @@
+{
+  "project_id": "proj-20261107-d3563a",
+  "name": "Build Rust Engine",
+  "user_goal": "Implement ultra-low latency WebSocket streaming core",
+  "created_at": "2026-11-07T07:47:04.672878+00:00",
+  "updated_at": "2026-11-07T07:47:04.672878+00:00",
+  "status": "planning",
+  "assigned_agents": [
+    "CEO",
+    "CTO"
+  ],
+  "lead_agent": "CEO",
+  "priority": "high",
+  "deadline": null,
+  "deliverables_expected": [],
+  "deliverables_completed": [],
+  "audit_status": "pending",
+  "user_approved": null,
+  "parent_project": null,
+  "tags": []
+}

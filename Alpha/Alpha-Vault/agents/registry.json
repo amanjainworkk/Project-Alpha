@@ -1,0 +1,719 @@
+{
+  "version": "1.0.0",
+  "total_active_agents": 14,
+  "agents": [
+    {
+      "agent_id": "CEO",
+      "role": "Chief Executive Officer",
+      "full_title": "Chief Executive Officer",
+      "version": "1.0.0",
+      "created_date": "2026-11-07T13:37:40.150837+00:00",
+      "jd_file": "CEO-Chief-Executive-Officer.md",
+      "assigned_model": {
+        "default": "llama3.2",
+        "simple_tasks": "llama3.2",
+        "complex_tasks": "llama3.2"
+      },
+      "skills": [
+        "Goal Decomposition",
+        "Workstream Planning",
+        "Agent Delegation",
+        "Executive Synthesis"
+      ],
+      "communication_style": "executive, structured",
+      "vault_read_access": [
+        "*"
+      ],
+      "vault_write_access": [
+        "agents/CEO/*",
+        "projects/*"
+      ],
+      "peers": [
+        "CTO",
+        "CMO",
+        "CPO",
+        "CDO",
+        "CFO",
+        "COO",
+        "CHRO",
+        "CIO",
+        "CSO",
+        "CLO",
+        "CAO-Claude",
+        "CAO-ChatGPT",
+        "CAO"
+      ],
+      "reports_to": "Founder",
+      "status": "active",
+      "total_projects_completed": 0,
+      "specializations": [
+        "Goal Decomposition",
+        "Workstream Planning",
+        "Agent Delegation",
+        "Executive Synthesis"
+      ]
+    },
+    {
+      "agent_id": "CTO",
+      "role": "Chief Technology Officer",
+      "full_title": "Chief Technology Officer",
+      "version": "1.0.0",
+      "created_date": "2026-11-07T13:37:40.726128+00:00",
+      "jd_file": "CTO-Chief-Technology-Officer.md",
+      "assigned_model": {
+        "default": "llama3.2",
+        "simple_tasks": "llama3.2",
+        "complex_tasks": "llama3.2"
+      },
+      "skills": [
+        "System Architecture",
+        "Tech Stack Selection",
+        "Archify Diagrams",
+        "Code Standards"
+      ],
+      "communication_style": "executive, structured",
+      "vault_read_access": [
+        "*"
+      ],
+      "vault_write_access": [
+        "agents/CTO/*",
+        "projects/*"
+      ],
+      "peers": [
+        "CEO",
+        "CMO",
+        "CPO",
+        "CDO",
+        "CFO",
+        "COO",
+        "CHRO",
+        "CIO",
+        "CSO",
+        "CLO",
+        "CAO-Claude",
+        "CAO-ChatGPT",
+        "CAO"
+      ],
+      "reports_to": "CEO",
+      "status": "active",
+      "total_projects_completed": 0,
+      "specializations": [
+        "System Architecture",
+        "Tech Stack Selection",
+        "Archify Diagrams",
+        "Code Standards"
+      ]
+    },
+    {
+      "agent_id": "CMO",
+      "role": "Chief Marketing Officer",
+      "full_title": "Chief Marketing Officer",
+      "version": "1.0.0",
+      "created_date": "2026-11-07T13:37:41.228092+00:00",
+      "jd_file": "CMO-Chief-Marketing-Officer.md",
+      "assigned_model": {
+        "default": "llama3.2",
+        "simple_tasks": "llama3.2",
+        "complex_tasks": "llama3.2"
+      },
+      "skills": [
+        "Market Research",
+        "Brand Positioning",
+        "Growth Experiments",
+        "User Personas"
+      ],
+      "communication_style": "executive, structured",
+      "vault_read_access": [
+        "*"
+      ],
+      "vault_write_access": [
+        "agents/CMO/*",
+        "projects/*"
+      ],
+      "peers": [
+        "CEO",
+        "CTO",
+        "CPO",
+        "CDO",
+        "CFO",
+        "COO",
+        "CHRO",
+        "CIO",
+        "CSO",
+        "CLO",
+        "CAO-Claude",
+        "CAO-ChatGPT",
+        "CAO"
+      ],
+      "reports_to": "CEO",
+      "status": "active",
+      "total_projects_completed": 0,
+      "specializations": [
+        "Market Research",
+        "Brand Positioning",
+        "Growth Experiments",
+        "User Personas"
+      ]
+    },
+    {
+      "agent_id": "CPO",
+      "role": "Chief Product Officer",
+      "full_title": "Chief Product Officer",
+      "version": "1.0.0",
+      "created_date": "2026-11-07T13:37:41.710574+00:00",
+      "jd_file": "CPO-Chief-Product-Officer.md",
+      "assigned_model": {
+        "default": "llama3.2",
+        "simple_tasks": "llama3.2",
+        "complex_tasks": "llama3.2"
+      },
+      "skills": [
+        "Product PRDs",
+        "User Story Mapping",
+        "MVP Scoping",
+        "MoSCoW Prioritization"
+      ],
+      "communication_style": "executive, structured",
+      "vault_read_access": [
+        "*"
+      ],
+      "vault_write_access": [
+        "agents/CPO/*",
+        "projects/*"
+      ],
+      "peers": [
+        "CEO",
+        "CTO",
+        "CMO",
+        "CDO",
+        "CFO",
+        "COO",
+        "CHRO",
+        "CIO",
+        "CSO",
+        "CLO",
+        "CAO-Claude",
+        "CAO-ChatGPT",
+        "CAO"
+      ],
+      "reports_to": "CEO",
+      "status": "active",
+      "total_projects_completed": 0,
+      "specializations": [
+        "Product PRDs",
+        "User Story Mapping",
+        "MVP Scoping",
+        "MoSCoW Prioritization"
+      ]
+    },
+    {
+      "agent_id": "CDO",
+      "role": "Chief Design Officer",
+      "full_title": "Chief Design Officer",
+      "version": "1.0.0",
+      "created_date": "2026-11-07T13:37:42.207546+00:00",
+      "jd_file": "CDO-Chief-Design-Officer.md",
+      "assigned_model": {
+        "default": "llama3.2",
+        "simple_tasks": "llama3.2",
+        "complex_tasks": "llama3.2"
+      },
+      "skills": [
+        "OLED Dark Design System",
+        "Archify Visual Tokens",
+        "Wireframing",
+        "UI/UX Guidelines"
+      ],
+      "communication_style": "executive, structured",
+      "vault_read_access": [
+        "*"
+      ],
+      "vault_write_access": [
+        "agents/CDO/*",
+        "projects/*"
+      ],
+      "peers": [
+        "CEO",
+        "CTO",
+        "CMO",
+        "CPO",
+        "CFO",
+        "COO",
+        "CHRO",
+        "CIO",
+        "CSO",
+        "CLO",
+        "CAO-Claude",
+        "CAO-ChatGPT",
+        "CAO"
+      ],
+      "reports_to": "CEO",
+      "status": "active",
+      "total_projects_completed": 0,
+      "specializations": [
+        "OLED Dark Design System",
+        "Archify Visual Tokens",
+        "Wireframing",
+        "UI/UX Guidelines"
+      ]
+    },
+    {
+      "agent_id": "CFO",
+      "role": "Chief Financial Officer",
+      "full_title": "Chief Financial Officer",
+      "version": "1.0.0",
+      "created_date": "2026-11-07T13:37:42.746691+00:00",
+      "jd_file": "CFO-Chief-Financial-Officer.md",
+      "assigned_model": {
+        "default": "llama3.2",
+        "simple_tasks": "llama3.2",
+        "complex_tasks": "llama3.2"
+      },
+      "skills": [
+        "Token Governance",
+        "Cost per Query Modeling",
+        "Cost Tracking",
+        "Budget Enforcement"
+      ],
+      "communication_style": "executive, structured",
+      "vault_read_access": [
+        "*"
+      ],
+      "vault_write_access": [
+        "agents/CFO/*",
+        "projects/*"
+      ],
+      "peers": [
+        "CEO",
+        "CTO",
+        "CMO",
+        "CPO",
+        "CDO",
+        "COO",
+        "CHRO",
+        "CIO",
+        "CSO",
+        "CLO",
+        "CAO-Claude",
+        "CAO-ChatGPT",
+        "CAO"
+      ],
+      "reports_to": "CEO",
+      "status": "active",
+      "total_projects_completed": 0,
+      "specializations": [
+        "Token Governance",
+        "Cost per Query Modeling",
+        "Cost Tracking",
+        "Budget Enforcement"
+      ]
+    },
+    {
+      "agent_id": "COO",
+      "role": "Chief Operations Officer",
+      "full_title": "Chief Operations Officer",
+      "version": "1.0.0",
+      "created_date": "2026-11-07T13:37:43.221528+00:00",
+      "jd_file": "COO-Chief-Operations-Officer.md",
+      "assigned_model": {
+        "default": "llama3.2",
+        "simple_tasks": "llama3.2",
+        "complex_tasks": "llama3.2"
+      },
+      "skills": [
+        "Project Execution Plans",
+        "Critical Path Tracking",
+        "Timeline Matrices",
+        "Process Auditing"
+      ],
+      "communication_style": "executive, structured",
+      "vault_read_access": [
+        "*"
+      ],
+      "vault_write_access": [
+        "agents/COO/*",
+        "projects/*"
+      ],
+      "peers": [
+        "CEO",
+        "CTO",
+        "CMO",
+        "CPO",
+        "CDO",
+        "CFO",
+        "CHRO",
+        "CIO",
+        "CSO",
+        "CLO",
+        "CAO-Claude",
+        "CAO-ChatGPT",
+        "CAO"
+      ],
+      "reports_to": "CEO",
+      "status": "active",
+      "total_projects_completed": 0,
+      "specializations": [
+        "Project Execution Plans",
+        "Critical Path Tracking",
+        "Timeline Matrices",
+        "Process Auditing"
+      ]
+    },
+    {
+      "agent_id": "CHRO",
+      "role": "Chief Human Resources Officer",
+      "full_title": "Chief Human Resources Officer",
+      "version": "1.0.0",
+      "created_date": "2026-11-07T13:37:43.692240+00:00",
+      "jd_file": "CHRO-Chief-Human-Resources-Officer.md",
+      "assigned_model": {
+        "default": "llama3.2",
+        "simple_tasks": "llama3.2",
+        "complex_tasks": "llama3.2"
+      },
+      "skills": [
+        "Agent Lifecycle Management",
+        "Agent Onboarding",
+        "Performance Reviews",
+        "Culture Alignment"
+      ],
+      "communication_style": "executive, structured",
+      "vault_read_access": [
+        "*"
+      ],
+      "vault_write_access": [
+        "agents/CHRO/*",
+        "projects/*"
+      ],
+      "peers": [
+        "CEO",
+        "CTO",
+        "CMO",
+        "CPO",
+        "CDO",
+        "CFO",
+        "COO",
+        "CIO",
+        "CSO",
+        "CLO",
+        "CAO-Claude",
+        "CAO-ChatGPT",
+        "CAO"
+      ],
+      "reports_to": "CEO",
+      "status": "active",
+      "total_projects_completed": 0,
+      "specializations": [
+        "Agent Lifecycle Management",
+        "Agent Onboarding",
+        "Performance Reviews",
+        "Culture Alignment"
+      ]
+    },
+    {
+      "agent_id": "CIO",
+      "role": "Chief Information Officer",
+      "full_title": "Chief Information Officer",
+      "version": "1.0.0",
+      "created_date": "2026-11-07T13:37:44.201950+00:00",
+      "jd_file": "CIO-Chief-Information-Officer.md",
+      "assigned_model": {
+        "default": "llama3.2",
+        "simple_tasks": "llama3.2",
+        "complex_tasks": "llama3.2"
+      },
+      "skills": [
+        "Vault Storage Custody",
+        "Schema Governance",
+        "Memory Compression",
+        "Data Integrity"
+      ],
+      "communication_style": "executive, structured",
+      "vault_read_access": [
+        "*"
+      ],
+      "vault_write_access": [
+        "agents/CIO/*",
+        "projects/*"
+      ],
+      "peers": [
+        "CEO",
+        "CTO",
+        "CMO",
+        "CPO",
+        "CDO",
+        "CFO",
+        "COO",
+        "CHRO",
+        "CSO",
+        "CLO",
+        "CAO-Claude",
+        "CAO-ChatGPT",
+        "CAO"
+      ],
+      "reports_to": "CEO",
+      "status": "active",
+      "total_projects_completed": 0,
+      "specializations": [
+        "Vault Storage Custody",
+        "Schema Governance",
+        "Memory Compression",
+        "Data Integrity"
+      ]
+    },
+    {
+      "agent_id": "CSO",
+      "role": "Chief Strategy Officer",
+      "full_title": "Chief Strategy Officer",
+      "version": "1.0.0",
+      "created_date": "2026-11-07T13:37:44.739916+00:00",
+      "jd_file": "CSO-Chief-Strategy-Officer.md",
+      "assigned_model": {
+        "default": "llama3.2",
+        "simple_tasks": "llama3.2",
+        "complex_tasks": "llama3.2"
+      },
+      "skills": [
+        "OKR Formulation",
+        "Strategic Horizon Planning",
+        "Alignment Checking",
+        "Competitive Analysis"
+      ],
+      "communication_style": "executive, structured",
+      "vault_read_access": [
+        "*"
+      ],
+      "vault_write_access": [
+        "agents/CSO/*",
+        "projects/*"
+      ],
+      "peers": [
+        "CEO",
+        "CTO",
+        "CMO",
+        "CPO",
+        "CDO",
+        "CFO",
+        "COO",
+        "CHRO",
+        "CIO",
+        "CLO",
+        "CAO-Claude",
+        "CAO-ChatGPT",
+        "CAO"
+      ],
+      "reports_to": "CEO",
+      "status": "active",
+      "total_projects_completed": 0,
+      "specializations": [
+        "OKR Formulation",
+        "Strategic Horizon Planning",
+        "Alignment Checking",
+        "Competitive Analysis"
+      ]
+    },
+    {
+      "agent_id": "CLO",
+      "role": "Chief Legal Officer",
+      "full_title": "Chief Legal Officer",
+      "version": "1.0.0",
+      "created_date": "2026-11-07T13:37:45.238980+00:00",
+      "jd_file": "CLO-Chief-Legal-Officer.md",
+      "assigned_model": {
+        "default": "llama3.2",
+        "simple_tasks": "llama3.2",
+        "complex_tasks": "llama3.2"
+      },
+      "skills": [
+        "Open Source License Compliance",
+        "GPL Contamination Defense",
+        "Data Privacy",
+        "IP Shielding"
+      ],
+      "communication_style": "executive, structured",
+      "vault_read_access": [
+        "*"
+      ],
+      "vault_write_access": [
+        "agents/CLO/*",
+        "projects/*"
+      ],
+      "peers": [
+        "CEO",
+        "CTO",
+        "CMO",
+        "CPO",
+        "CDO",
+        "CFO",
+        "COO",
+        "CHRO",
+        "CIO",
+        "CSO",
+        "CAO-Claude",
+        "CAO-ChatGPT",
+        "CAO"
+      ],
+      "reports_to": "CEO",
+      "status": "active",
+      "total_projects_completed": 0,
+      "specializations": [
+        "Open Source License Compliance",
+        "GPL Contamination Defense",
+        "Data Privacy",
+        "IP Shielding"
+      ]
+    },
+    {
+      "agent_id": "CAO-Claude",
+      "role": "Chief Audit Officer (Claude)",
+      "full_title": "Chief Audit Officer (Claude)",
+      "version": "1.0.0",
+      "created_date": "2026-11-07T13:37:46.676809+00:00",
+      "jd_file": "CAO-Chief-Audit-Officer.md",
+      "assigned_model": {
+        "default": "claude-3-5-sonnet",
+        "simple_tasks": "claude-3-5-sonnet",
+        "complex_tasks": "claude-3-5-sonnet"
+      },
+      "skills": [
+        "Five-Axis Review Rubric",
+        "Architectural Audit",
+        "Defect Categorization",
+        "Escalation Triggers"
+      ],
+      "communication_style": "executive, structured",
+      "vault_read_access": [
+        "*"
+      ],
+      "vault_write_access": [
+        "agents/CAO-Claude/*",
+        "projects/*"
+      ],
+      "peers": [
+        "CEO",
+        "CTO",
+        "CMO",
+        "CPO",
+        "CDO",
+        "CFO",
+        "COO",
+        "CHRO",
+        "CIO",
+        "CSO",
+        "CLO",
+        "CAO-ChatGPT",
+        "CAO"
+      ],
+      "reports_to": "Founder / Independent Gate",
+      "status": "active",
+      "total_projects_completed": 0,
+      "specializations": [
+        "Five-Axis Review Rubric",
+        "Architectural Audit",
+        "Defect Categorization",
+        "Escalation Triggers"
+      ]
+    },
+    {
+      "agent_id": "CAO-ChatGPT",
+      "role": "Chief Audit Officer (ChatGPT)",
+      "full_title": "Chief Audit Officer (ChatGPT)",
+      "version": "1.0.0",
+      "created_date": "2026-11-07T13:37:47.125557+00:00",
+      "jd_file": "CAO-Chief-Audit-Officer.md",
+      "assigned_model": {
+        "default": "gpt-4o",
+        "simple_tasks": "gpt-4o",
+        "complex_tasks": "gpt-4o"
+      },
+      "skills": [
+        "Code Verification",
+        "Edge Case Scrutiny",
+        "Alternative Hypotheses",
+        "Completeness Audit"
+      ],
+      "communication_style": "executive, structured",
+      "vault_read_access": [
+        "*"
+      ],
+      "vault_write_access": [
+        "agents/CAO-ChatGPT/*",
+        "projects/*"
+      ],
+      "peers": [
+        "CEO",
+        "CTO",
+        "CMO",
+        "CPO",
+        "CDO",
+        "CFO",
+        "COO",
+        "CHRO",
+        "CIO",
+        "CSO",
+        "CLO",
+        "CAO-Claude",
+        "CAO"
+      ],
+      "reports_to": "Founder / Independent Gate",
+      "status": "active",
+      "total_projects_completed": 0,
+      "specializations": [
+        "Code Verification",
+        "Edge Case Scrutiny",
+        "Alternative Hypotheses",
+        "Completeness Audit"
+      ]
+    },
+    {
+      "agent_id": "CAO",
+      "role": "Chief Audit Officer",
+      "full_title": "Chief Audit Officer (Unified Alias)",
+      "version": "1.0.0",
+      "created_date": "2026-11-07T13:37:47.597548+00:00",
+      "jd_file": "CAO-Chief-Audit-Officer.md",
+      "assigned_model": {
+        "default": "claude-3-5-sonnet",
+        "simple_tasks": "claude-3-5-sonnet",
+        "complex_tasks": "claude-3-5-sonnet"
+      },
+      "skills": [
+        "Audit Synthesis",
+        "Consolidated Defect Reporting",
+        "Two-Round Escalation Cap Enforcement"
+      ],
+      "communication_style": "executive, structured",
+      "vault_read_access": [
+        "*"
+      ],
+      "vault_write_access": [
+        "agents/CAO/*",
+        "projects/*"
+      ],
+      "peers": [
+        "CEO",
+        "CTO",
+        "CMO",
+        "CPO",
+        "CDO",
+        "CFO",
+        "COO",
+        "CHRO",
+        "CIO",
+        "CSO",
+        "CLO",
+        "CAO-Claude",
+        "CAO-ChatGPT"
+      ],
+      "reports_to": "Founder",
+      "status": "active",
+      "total_projects_completed": 0,
+      "specializations": [
+        "Audit Synthesis",
+        "Consolidated Defect Reporting",
+        "Two-Round Escalation Cap Enforcement"
+      ]
+    }
+  ],
+  "last_updated": "2026-11-07T13:37:48.064769+00:00"
+}

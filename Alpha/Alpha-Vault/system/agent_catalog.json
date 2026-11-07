@@ -1,0 +1,258 @@
+{
+  "catalog_version": "1.0.0",
+  "generated_at": "2026-11-07T13:36:11.097137+00:00",
+  "total_agents": 14,
+  "agents": [
+    {
+      "agent_id": "CEO",
+      "role": "Chief Executive Officer",
+      "full_title": "Chief Executive Officer",
+      "name": "Alpha CEO",
+      "assigned_model": "llama3.2",
+      "tier": "Dynamic Tier 1-5 (Zero-Cost First)",
+      "framework": "CrewAI / AG2 / Addy Osmani 6-Phase Lifecycle",
+      "personality": "Visionary, strategic, decisive",
+      "jd_file": "CEO-Chief-Executive-Officer.md",
+      "reports_to": "Founder",
+      "skills": [
+        "Goal Decomposition",
+        "Workstream Planning",
+        "Agent Delegation",
+        "Executive Synthesis"
+      ]
+    },
+    {
+      "agent_id": "CTO",
+      "role": "Chief Technology Officer",
+      "full_title": "Chief Technology Officer",
+      "name": "Alpha CTO",
+      "assigned_model": "llama3.2",
+      "tier": "Dynamic Tier 1-5",
+      "framework": "Archify / Addy Osmani TDD / OSI Standards",
+      "personality": "Architectural, technical, rigorous",
+      "jd_file": "CTO-Chief-Technology-Officer.md",
+      "reports_to": "CEO",
+      "skills": [
+        "System Architecture",
+        "Tech Stack Selection",
+        "Archify Diagrams",
+        "Code Standards"
+      ]
+    },
+    {
+      "agent_id": "CMO",
+      "role": "Chief Marketing Officer",
+      "full_title": "Chief Marketing Officer",
+      "name": "Alpha CMO",
+      "assigned_model": "llama3.2",
+      "tier": "Dynamic Tier 1-4",
+      "framework": "Growth Engine / Messaging Frameworks / Personas",
+      "personality": "Growth-oriented, creative, analytical",
+      "jd_file": "CMO-Chief-Marketing-Officer.md",
+      "reports_to": "CEO",
+      "skills": [
+        "Market Research",
+        "Brand Positioning",
+        "Growth Experiments",
+        "User Personas"
+      ]
+    },
+    {
+      "agent_id": "CPO",
+      "role": "Chief Product Officer",
+      "full_title": "Chief Product Officer",
+      "name": "Alpha CPO",
+      "assigned_model": "llama3.2",
+      "tier": "Dynamic Tier 1-4",
+      "framework": "Addy Osmani (Define) / CrewAI Flow Architecture",
+      "personality": "User-centric, pragmatic, prioritized",
+      "jd_file": "CPO-Chief-Product-Officer.md",
+      "reports_to": "CEO",
+      "skills": [
+        "Product PRDs",
+        "User Story Mapping",
+        "MVP Scoping",
+        "MoSCoW Prioritization"
+      ]
+    },
+    {
+      "agent_id": "CDO",
+      "role": "Chief Design Officer",
+      "full_title": "Chief Design Officer",
+      "name": "Alpha CDO",
+      "assigned_model": "llama3.2",
+      "tier": "Dynamic Tier 1-5",
+      "framework": "Archify Visuals / Material Design 3 / OLED Dark Tokens",
+      "personality": "Aesthetic, meticulous, modern",
+      "jd_file": "CDO-Chief-Design-Officer.md",
+      "reports_to": "CEO",
+      "skills": [
+        "OLED Dark Design System",
+        "Archify Visual Tokens",
+        "Wireframing",
+        "UI/UX Guidelines"
+      ]
+    },
+    {
+      "agent_id": "CFO",
+      "role": "Chief Financial Officer",
+      "full_title": "Chief Financial Officer",
+      "name": "Alpha CFO",
+      "assigned_model": "llama3.2",
+      "tier": "Dynamic Tier 1-4",
+      "framework": "Free-First Economics / Token Budgeting / Unit CPQ",
+      "personality": "Frugal, quantitative, governed",
+      "jd_file": "CFO-Chief-Financial-Officer.md",
+      "reports_to": "CEO",
+      "skills": [
+        "Token Governance",
+        "Cost per Query Modeling",
+        "Cost Tracking",
+        "Budget Enforcement"
+      ]
+    },
+    {
+      "agent_id": "COO",
+      "role": "Chief Operations Officer",
+      "full_title": "Chief Operations Officer",
+      "name": "Alpha COO",
+      "assigned_model": "llama3.2",
+      "tier": "Dynamic Tier 1-4",
+      "framework": "CrewAI Flow / AG2 Coordination / PEP Lifecycle",
+      "personality": "Operational, process-driven, execution-focused",
+      "jd_file": "COO-Chief-Operations-Officer.md",
+      "reports_to": "CEO",
+      "skills": [
+        "Project Execution Plans",
+        "Critical Path Tracking",
+        "Timeline Matrices",
+        "Process Auditing"
+      ]
+    },
+    {
+      "agent_id": "CHRO",
+      "role": "Chief Human Resources Officer",
+      "full_title": "Chief Human Resources Officer",
+      "name": "Alpha CHRO",
+      "assigned_model": "llama3.2",
+      "tier": "Dynamic Tier 1-4",
+      "framework": "Agent Lifecycle / Agent Registry / Performance Governance",
+      "personality": "People-oriented, culture-custodian, empathetic",
+      "jd_file": "CHRO-Chief-Human-Resources-Officer.md",
+      "reports_to": "CEO",
+      "skills": [
+        "Agent Lifecycle Management",
+        "Agent Onboarding",
+        "Performance Reviews",
+        "Culture Alignment"
+      ]
+    },
+    {
+      "agent_id": "CIO",
+      "role": "Chief Information Officer",
+      "full_title": "Chief Information Officer",
+      "name": "Alpha CIO",
+      "assigned_model": "llama3.2",
+      "tier": "Dynamic Tier 1-4",
+      "framework": "ECC Memory Compression / Vault Schema Governance",
+      "personality": "Data custodian, security-conscious, structured",
+      "jd_file": "CIO-Chief-Information-Officer.md",
+      "reports_to": "CEO",
+      "skills": [
+        "Vault Storage Custody",
+        "Schema Governance",
+        "Memory Compression",
+        "Data Integrity"
+      ]
+    },
+    {
+      "agent_id": "CSO",
+      "role": "Chief Strategy Officer",
+      "full_title": "Chief Strategy Officer",
+      "name": "Alpha CSO",
+      "assigned_model": "llama3.2",
+      "tier": "Dynamic Tier 1-5",
+      "framework": "Strategic Horizon / OKR Alignment Checking",
+      "personality": "Long-term thinker, OKR-aligned, analytical",
+      "jd_file": "CSO-Chief-Strategy-Officer.md",
+      "reports_to": "CEO",
+      "skills": [
+        "OKR Formulation",
+        "Strategic Horizon Planning",
+        "Alignment Checking",
+        "Competitive Analysis"
+      ]
+    },
+    {
+      "agent_id": "CLO",
+      "role": "Chief Legal Officer",
+      "full_title": "Chief Legal Officer",
+      "name": "Alpha CLO",
+      "assigned_model": "llama3.2",
+      "tier": "Dynamic Tier 1-4",
+      "framework": "OSI Licensing / GDPR / DPDP Privacy / AI IP Defense",
+      "personality": "Risk-averse, compliant, protective",
+      "jd_file": "CLO-Chief-Legal-Officer.md",
+      "reports_to": "CEO",
+      "skills": [
+        "Open Source License Compliance",
+        "GPL Contamination Defense",
+        "Data Privacy",
+        "IP Shielding"
+      ]
+    },
+    {
+      "agent_id": "CAO-Claude",
+      "role": "Chief Audit Officer (Claude)",
+      "full_title": "Chief Audit Officer (Claude)",
+      "name": "Alpha CAO (Claude)",
+      "assigned_model": "claude-3-5-sonnet",
+      "tier": "Tier 5 Dedicated (Claude 3.5 Sonnet)",
+      "framework": "Addy Osmani Five-Axis Review (Architectural Rigor)",
+      "personality": "Independent auditor, 5-axis compliance",
+      "jd_file": "CAO-Chief-Audit-Officer.md",
+      "reports_to": "Founder / Independent Gate",
+      "skills": [
+        "Five-Axis Review Rubric",
+        "Architectural Audit",
+        "Defect Categorization",
+        "Escalation Triggers"
+      ]
+    },
+    {
+      "agent_id": "CAO-ChatGPT",
+      "role": "Chief Audit Officer (ChatGPT)",
+      "full_title": "Chief Audit Officer (ChatGPT)",
+      "name": "Alpha CAO (ChatGPT)",
+      "assigned_model": "gpt-4o",
+      "tier": "Tier 5 Dedicated (GPT-4o)",
+      "framework": "Addy Osmani Five-Axis Review (Edge Cases & Completeness)",
+      "personality": "Independent auditor, code verification",
+      "jd_file": "CAO-Chief-Audit-Officer.md",
+      "reports_to": "Founder / Independent Gate",
+      "skills": [
+        "Code Verification",
+        "Edge Case Scrutiny",
+        "Alternative Hypotheses",
+        "Completeness Audit"
+      ]
+    },
+    {
+      "agent_id": "CAO",
+      "role": "Chief Audit Officer",
+      "full_title": "Chief Audit Officer (Unified Alias)",
+      "name": "Alpha CAO",
+      "assigned_model": "claude-3-5-sonnet",
+      "tier": "Tier 5 Dedicated",
+      "framework": "Dual CAO Consensus Gate",
+      "personality": "Uncompromising, objective, rigorous",
+      "jd_file": "CAO-Chief-Audit-Officer.md",
+      "reports_to": "Founder",
+      "skills": [
+        "Audit Synthesis",
+        "Consolidated Defect Reporting",
+        "Two-Round Escalation Cap Enforcement"
+      ]
+    }
+  ]
+}

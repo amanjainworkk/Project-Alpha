@@ -1,0 +1,51 @@
+{
+  "agent_id": "CSO",
+  "role": "Chief Strategy Officer",
+  "full_title": "Chief Strategy Officer",
+  "version": "1.0.0",
+  "created_date": "2026-11-07T13:37:44.739916+00:00",
+  "jd_file": "CSO-Chief-Strategy-Officer.md",
+  "assigned_model": {
+    "default": "llama3.2",
+    "simple_tasks": "llama3.2",
+    "complex_tasks": "llama3.2"
+  },
+  "skills": [
+    "OKR Formulation",
+    "Strategic Horizon Planning",
+    "Alignment Checking",
+    "Competitive Analysis"
+  ],
+  "communication_style": "executive, structured",
+  "vault_read_access": [
+    "*"
+  ],
+  "vault_write_access": [
+    "agents/CSO/*",
+    "projects/*"
+  ],
+  "peers": [
+    "CEO",
+    "CTO",
+    "CMO",
+    "CPO",
+    "CDO",
+    "CFO",
+    "COO",
+    "CHRO",
+    "CIO",
+    "CLO",
+    "CAO-Claude",
+    "CAO-ChatGPT",
+    "CAO"
+  ],
+  "reports_to": "CEO",
+  "status": "active",
+  "total_projects_completed": 0,
+  "specializations": [
+    "OKR Formulation",
+    "Strategic Horizon Planning",
+    "Alignment Checking",
+    "Competitive Analysis"
+  ]
+}

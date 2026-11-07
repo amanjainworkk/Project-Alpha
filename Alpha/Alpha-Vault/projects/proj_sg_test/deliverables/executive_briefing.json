@@ -1,0 +1,28 @@
+{
+  "project_id": "proj_sg_test",
+  "title": "Project proj_sg_test",
+  "summary": "Alpha C-Suite has successfully developed and synthesized 4 departmental workstreams for Project proj_sg_test. Architecture, product scope, and timelines have been reconciled.",
+  "conflicts": [],
+  "escalation": null,
+  "action_items": [
+    {
+      "id": "ACT-01",
+      "action": "Review Technical Architecture Spec",
+      "owner": "CTO",
+      "due": "Immediate"
+    },
+    {
+      "id": "ACT-02",
+      "action": "Verify CAO Audit Gate Scorecard",
+      "owner": "CAO-Claude",
+      "due": "Pre-Release"
+    },
+    {
+      "id": "ACT-03",
+      "action": "Final Founder Sign-Off on APK Living Canvas",
+      "owner": "Founder Aman Jain",
+      "due": "Milestone Delivery"
+    }
+  ],
+  "timestamp": "2026-11-07T03:44:34.704602+00:00"
+}

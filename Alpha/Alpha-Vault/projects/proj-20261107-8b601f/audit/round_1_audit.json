@@ -1,0 +1,12 @@
+{
+  "project_id": "proj-20261107-8b601f",
+  "round_num": 1,
+  "passed": true,
+  "claude_score": 93.0,
+  "gpt_score": 91.55,
+  "overall_score": 92.28,
+  "p0_defects": [],
+  "p1_defects": [],
+  "escalation_required": false,
+  "timestamp": "2026-11-07T09:39:43.770599+00:00"
+}

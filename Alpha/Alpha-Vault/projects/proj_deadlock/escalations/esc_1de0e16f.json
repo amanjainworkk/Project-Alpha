@@ -1,0 +1,15 @@
+{
+  "escalation_id": "esc_1de0e16f",
+  "project_id": "proj_deadlock",
+  "from_agent": "CEO",
+  "urgency": "high",
+  "question": "Should we allow external web search or keep strictly offline?",
+  "context": "Dual CAO flagged security risk of external network access in air-gapped mode.",
+  "options": [
+    "Allow Offline Only",
+    "Allow Sandboxed Web Search"
+  ],
+  "status": "pending_founder_response",
+  "message_id": "msg_1ce7d38df92e",
+  "created_at": "2026-11-07T07:47:07.002332+00:00"
+}

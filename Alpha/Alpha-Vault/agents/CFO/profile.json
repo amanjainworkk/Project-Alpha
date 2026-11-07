@@ -1,0 +1,51 @@
+{
+  "agent_id": "CFO",
+  "role": "Chief Financial Officer",
+  "full_title": "Chief Financial Officer",
+  "version": "1.0.0",
+  "created_date": "2026-11-07T13:37:42.746691+00:00",
+  "jd_file": "CFO-Chief-Financial-Officer.md",
+  "assigned_model": {
+    "default": "llama3.2",
+    "simple_tasks": "llama3.2",
+    "complex_tasks": "llama3.2"
+  },
+  "skills": [
+    "Token Governance",
+    "Cost per Query Modeling",
+    "Cost Tracking",
+    "Budget Enforcement"
+  ],
+  "communication_style": "executive, structured",
+  "vault_read_access": [
+    "*"
+  ],
+  "vault_write_access": [
+    "agents/CFO/*",
+    "projects/*"
+  ],
+  "peers": [
+    "CEO",
+    "CTO",
+    "CMO",
+    "CPO",
+    "CDO",
+    "COO",
+    "CHRO",
+    "CIO",
+    "CSO",
+    "CLO",
+    "CAO-Claude",
+    "CAO-ChatGPT",
+    "CAO"
+  ],
+  "reports_to": "CEO",
+  "status": "active",
+  "total_projects_completed": 0,
+  "specializations": [
+    "Token Governance",
+    "Cost per Query Modeling",
+    "Cost Tracking",
+    "Budget Enforcement"
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "company_name": "Alpha OS",
+  "founder": {
+    "name": "Aman Jain",
+    "title": "Founder & Chairman",
+    "role": "Human Principal / Final Approval Authority"
+  },
+  "executive_leadership": {
+    "CEO": {
+      "title": "Chief Executive Officer",
+      "reports_to": "Aman Jain",
+      "responsibilities": "Goal intake, multi-agent delegation, workstream synthesis, user liaison"
+    }
+  },
+  "direct_reports_to_ceo": [
+    {
+      "agent_id": "CTO",
+      "title": "Chief Technology Officer",
+      "domain": "Technology, Architecture, Archify Specs"
+    },
+    {
+      "agent_id": "CMO",
+      "title": "Chief Marketing Officer",
+      "domain": "Growth, Personas, Go-to-Market"
+    },
+    {
+      "agent_id": "CPO",
+      "title": "Chief Product Officer",
+      "domain": "Product PRDs, User Stories, Roadmaps"
+    },
+    {
+      "agent_id": "CDO",
+      "title": "Chief Design Officer",
+      "domain": "OLED Dark Theme, UI/UX, Design Tokens"
+    },
+    {
+      "agent_id": "CFO",
+      "title": "Chief Financial Officer",
+      "domain": "Token Governance, Cost Tracking, Unit Economics"
+    },
+    {
+      "agent_id": "COO",
+      "title": "Chief Operations Officer",
+      "domain": "Execution Matrices, Timelines, Operations"
+    },
+    {
+      "agent_id": "CHRO",
+      "title": "Chief Human Resources Officer",
+      "domain": "Agent Lifecycle, Performance, Culture"
+    },
+    {
+      "agent_id": "CIO",
+      "title": "Chief Information Officer",
+      "domain": "Vault Custody, Schema Integrity, Compression"
+    },
+    {
+      "agent_id": "CSO",
+      "title": "Chief Strategy Officer",
+      "domain": "Strategic Horizon, OKRs, Alignment"
+    },
+    {
+      "agent_id": "CLO",
+      "title": "Chief Legal Officer",
+      "domain": "IP Defense, License Compliance, Data Privacy"
+    }
+  ],
+  "independent_audit_tribunal": {
+    "gate": "Dual CAO Review Tribunal",
+    "mandate": "Independent five-axis quality audit before any deliverable reaches Founder",
+    "escalation_policy": "Strict maximum of 2 revision rounds before mandatory escalation to Founder",
+    "auditors": [
+      {
+        "agent_id": "CAO-Claude",
+        "engine": "Claude 3.5 Sonnet",
+        "axis_focus": "Reasoning Quality, Depth, Architecture"
+      },
+      {
+        "agent_id": "CAO-ChatGPT",
+        "engine": "GPT-4o",
+        "axis_focus": "Code Correctness, Edge Cases, Alternative Hypotheses"
+      }
+    ]
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "project_id": "proj-20261107-30a351",
+  "name": "List Project",
+  "user_goal": "Goal for listing",
+  "created_at": "2026-11-07T07:47:06.269317+00:00",
+  "updated_at": "2026-11-07T07:47:06.269317+00:00",
+  "status": "planning",
+  "assigned_agents": [
+    "CEO"
+  ],
+  "lead_agent": "CEO",
+  "priority": "low",
+  "deadline": null,
+  "deliverables_expected": [],
+  "deliverables_completed": [],
+  "audit_status": "pending",
+  "user_approved": null,
+  "parent_project": null,
+  "tags": []
+}

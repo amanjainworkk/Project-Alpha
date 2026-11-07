@@ -1,0 +1,26 @@
+{
+  "company_name": "Alpha OS",
+  "founder": "Aman Jain",
+  "founded_date": "2026-11-07",
+  "vision": "Build the world's premier personal autonomous AI executive operating system.",
+  "mission": "Empower a single founder to command a full autonomous C-suite to conceptualize, architect, audit, and deliver production software systems.",
+  "core_values": [
+    "Zero-cost first inference (Tier 1-4 free models before paid tiers)",
+    "Uncompromising architectural rigor and Addy Osmani standards",
+    "Audited autonomy via independent Dual CAO review gate",
+    "Local-first data privacy and persistent Vault institutional memory",
+    "Rapid, high-velocity deliverable execution with zero gold-plating"
+  ],
+  "industry": "Autonomous AI Systems & Software Engineering",
+  "current_stage": "Growth & Production Deployment",
+  "primary_goals": [
+    "Full autonomous multi-agent C-suite collaboration",
+    "Desktop backend brain with interactive Flutter mobile interface",
+    "Complete local persistence across SQLite and ChromaDB vector memory"
+  ],
+  "working_style": "autonomous, high-velocity, evidence-based",
+  "preferred_communication": "direct, structured, executive bullet points",
+  "timezone": "UTC",
+  "language": "en",
+  "alpha_version": "1.0.0"
+}

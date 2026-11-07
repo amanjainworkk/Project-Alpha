@@ -1,0 +1,11 @@
+{
+  "agent_id": "CQO",
+  "role": "CQO",
+  "full_title": "CQO",
+  "version": "1.0.0",
+  "jd_file": "CQO.md",
+  "assigned_model": "llama3.2",
+  "skills": [],
+  "communication_style": "executive",
+  "status": "active"
+}

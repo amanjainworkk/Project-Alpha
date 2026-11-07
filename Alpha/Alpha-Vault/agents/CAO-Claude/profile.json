@@ -1,0 +1,51 @@
+{
+  "agent_id": "CAO-Claude",
+  "role": "Chief Audit Officer (Claude)",
+  "full_title": "Chief Audit Officer (Claude)",
+  "version": "1.0.0",
+  "created_date": "2026-11-07T13:37:46.676809+00:00",
+  "jd_file": "CAO-Chief-Audit-Officer.md",
+  "assigned_model": {
+    "default": "claude-3-5-sonnet",
+    "simple_tasks": "claude-3-5-sonnet",
+    "complex_tasks": "claude-3-5-sonnet"
+  },
+  "skills": [
+    "Five-Axis Review Rubric",
+    "Architectural Audit",
+    "Defect Categorization",
+    "Escalation Triggers"
+  ],
+  "communication_style": "executive, structured",
+  "vault_read_access": [
+    "*"
+  ],
+  "vault_write_access": [
+    "agents/CAO-Claude/*",
+    "projects/*"
+  ],
+  "peers": [
+    "CEO",
+    "CTO",
+    "CMO",
+    "CPO",
+    "CDO",
+    "CFO",
+    "COO",
+    "CHRO",
+    "CIO",
+    "CSO",
+    "CLO",
+    "CAO-ChatGPT",
+    "CAO"
+  ],
+  "reports_to": "Founder / Independent Gate",
+  "status": "active",
+  "total_projects_completed": 0,
+  "specializations": [
+    "Five-Axis Review Rubric",
+    "Architectural Audit",
+    "Defect Categorization",
+    "Escalation Triggers"
+  ]
+}

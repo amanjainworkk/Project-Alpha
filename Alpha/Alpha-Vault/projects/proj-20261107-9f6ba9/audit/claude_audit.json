@@ -1,0 +1,74 @@
+{
+  "audit_id": "audit_claude_20261107_e70b76",
+  "instance": "CAO-Claude",
+  "assigned_model": "claude-3-5-sonnet",
+  "scorecard": {
+    "correctness": {
+      "axis_name": "Correctness",
+      "weight": 0.25,
+      "raw_score": 94.0,
+      "weighted_score": 23.5,
+      "status": "PASS",
+      "findings": [
+        "Deliverable complies with correctness standards."
+      ],
+      "comments": "CAO-Claude assessment of correctness"
+    },
+    "completeness": {
+      "axis_name": "Completeness",
+      "weight": 0.2,
+      "raw_score": 90.0,
+      "weighted_score": 18.0,
+      "status": "PASS",
+      "findings": [
+        "Deliverable complies with completeness standards."
+      ],
+      "comments": "CAO-Claude assessment of completeness"
+    },
+    "security_safety": {
+      "axis_name": "Security Safety",
+      "weight": 0.2,
+      "raw_score": 95.0,
+      "weighted_score": 19.0,
+      "status": "PASS",
+      "findings": [
+        "Deliverable complies with security_safety standards."
+      ],
+      "comments": "CAO-Claude assessment of security_safety"
+    },
+    "performance_scalability": {
+      "axis_name": "Performance Scalability",
+      "weight": 0.15,
+      "raw_score": 90.0,
+      "weighted_score": 13.5,
+      "status": "PASS",
+      "findings": [
+        "Deliverable complies with performance_scalability standards."
+      ],
+      "comments": "CAO-Claude assessment of performance_scalability"
+    },
+    "maintainability_architecture": {
+      "axis_name": "Maintainability Architecture",
+      "weight": 0.2,
+      "raw_score": 95.0,
+      "weighted_score": 19.0,
+      "status": "PASS",
+      "findings": [
+        "Deliverable complies with maintainability_architecture standards."
+      ],
+      "comments": "CAO-Claude assessment of maintainability_architecture"
+    },
+    "total_score": 93.0,
+    "passed": true,
+    "veto_triggered": false,
+    "veto_reasons": []
+  },
+  "findings": [],
+  "p0_defects": [],
+  "p1_defects": [],
+  "alternative_perspectives": [
+    "CAO-Claude view: Emphasizes mathematical & architectural rigor, defensive programming, contract compliance."
+  ],
+  "verdict": "APPROVED",
+  "raw_output": "[claude-3-5-sonnet-20241022] Output for CAO-Claude: Verified response for task 'audit'."
+}

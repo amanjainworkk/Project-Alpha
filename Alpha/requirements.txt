@@ -1,0 +1,33 @@
+# Project Alpha — Core Dependencies
+# Framework Integrations: AG2, CrewAI, LangGraph, Archify, ECC, Addy Osmani Skills
+
+# Multi-Agent Frameworks
+ag2>=0.4.0
+crewai>=0.80.0
+langgraph>=0.2.0
+
+# Vector & Structured Storage (Alpha's Vault)
+chromadb>=0.5.0
+pydantic>=2.7.0
+
+# API & WebSocket (APK Communication)
+fastapi>=0.111.0
+uvicorn[standard]>=0.30.0
+websockets>=12.0
+python-multipart>=0.0.9
+
+# Model Context Protocol (MCP)
+mcp>=1.0.0
+
+# LLM Providers (Free-first Routing + CAO Audit)
+groq>=0.9.0
+google-generativeai>=0.7.0
+anthropic>=0.28.0
+openai>=1.35.0
+ollama>=0.2.1
+
+# Interactive Diagramming & Templating (Archify Engine)
+jinja2>=3.1.4
+pyyaml>=6.0.1
+rich>=13.7.0
+httpx>=0.27.0

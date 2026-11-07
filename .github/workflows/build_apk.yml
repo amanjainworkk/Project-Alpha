@@ -1,0 +1,68 @@
+name: Build Project Alpha Android APK
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build-apk:
+    name: Build Release APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java Development Kit (Temurin 17)
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'gradle'
+
+      - name: Set up Flutter SDK
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.22.2'
+          channel: 'stable'
+          cache: true
+
+      - name: Verify Flutter Installation
+        run: flutter --version
+
+      - name: Generate Android Native Scaffolding if Missing
+        working-directory: Alpha/apk
+        run: |
+          if [ ! -d "android" ]; then
+            echo "Generating Android platform wrapper via flutter create..."
+            flutter create --platforms=android --org=com.alpha.mobile .
+          fi
+
+      - name: Install Flutter Dependencies
+        working-directory: Alpha/apk
+        run: flutter pub get
+
+      - name: Run Flutter Static Analysis
+        working-directory: Alpha/apk
+        run: flutter analyze --no-fatal-infos
+
+      - name: Run Unit & Service Tests
+        working-directory: Alpha/apk
+        run: |
+          flutter test test/unit/api_and_models_test.dart
+          flutter test test/unit/services_test.dart
+
+      - name: Build Release APK
+        working-directory: Alpha/apk
+        run: flutter build apk --release
+
+      - name: Upload APK Release Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: project-alpha-apk
+          path: Alpha/apk/build/app/outputs/flutter-apk/app-release.apk
+          if-no-files-found: error
+          retention-days: 30

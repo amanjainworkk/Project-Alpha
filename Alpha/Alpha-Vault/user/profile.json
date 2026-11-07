@@ -1,0 +1,25 @@
+{
+  "name": "Aman Jain",
+  "role": "Founder & Chairman",
+  "communication_style": "direct, high-signal, executive bullet points",
+  "decision_making": "autonomous execution with milestone approval",
+  "working_hours": "flexible / 24x7 asynchronous",
+  "output_preferences": {
+    "length": "concise",
+    "format": "mixed",
+    "include_reasoning": true
+  },
+  "auto_approve_routine": true,
+  "escalation_threshold": "critical_only",
+  "current_focus_areas": [
+    "Project Alpha Architecture",
+    "Autonomous Agent Teams",
+    "Production AI Deployment"
+  ],
+  "long_term_goals": [
+    "Self-sustaining AI software company",
+    "Open source executive operating system"
+  ],
+  "projects_completed": 0,
+  "total_goals_given": 0
+}

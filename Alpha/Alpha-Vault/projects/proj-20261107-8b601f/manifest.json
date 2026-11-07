@@ -1,0 +1,22 @@
+{
+  "project_id": "proj-20261107-8b601f",
+  "name": "Build \u0000 OS",
+  "user_goal": "Build \u0000 OS",
+  "created_at": "2026-11-07T09:38:42.112349+00:00",
+  "updated_at": "2026-11-07T09:38:42.112349+00:00",
+  "status": "planning",
+  "assigned_agents": [
+    "CEO"
+  ],
+  "lead_agent": "CEO",
+  "priority": "medium",
+  "deadline": null,
+  "deliverables_expected": [],
+  "deliverables_completed": [],
+  "audit_status": "pending",
+  "user_approved": null,
+  "parent_project": null,
+  "tags": [
+    "Build \u0000 OS"
+  ]
+}

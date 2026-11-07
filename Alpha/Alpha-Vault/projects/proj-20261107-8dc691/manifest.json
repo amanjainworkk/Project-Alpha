@@ -1,0 +1,22 @@
+{
+  "project_id": "proj-20261107-8dc691",
+  "name": "Alpha Project: \u0000",
+  "user_goal": "\u0000",
+  "created_at": "2026-11-07T09:38:05.473151+00:00",
+  "updated_at": "2026-11-07T09:38:05.473151+00:00",
+  "status": "planning",
+  "assigned_agents": [
+    "CEO"
+  ],
+  "lead_agent": "CEO",
+  "priority": "medium",
+  "deadline": null,
+  "deliverables_expected": [],
+  "deliverables_completed": [],
+  "audit_status": "pending",
+  "user_approved": null,
+  "parent_project": null,
+  "tags": [
+    "\u0000"
+  ]
+}

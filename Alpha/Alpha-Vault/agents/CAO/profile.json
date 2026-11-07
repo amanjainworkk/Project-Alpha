@@ -1,0 +1,49 @@
+{
+  "agent_id": "CAO",
+  "role": "Chief Audit Officer",
+  "full_title": "Chief Audit Officer (Unified Alias)",
+  "version": "1.0.0",
+  "created_date": "2026-11-07T13:37:47.597548+00:00",
+  "jd_file": "CAO-Chief-Audit-Officer.md",
+  "assigned_model": {
+    "default": "claude-3-5-sonnet",
+    "simple_tasks": "claude-3-5-sonnet",
+    "complex_tasks": "claude-3-5-sonnet"
+  },
+  "skills": [
+    "Audit Synthesis",
+    "Consolidated Defect Reporting",
+    "Two-Round Escalation Cap Enforcement"
+  ],
+  "communication_style": "executive, structured",
+  "vault_read_access": [
+    "*"
+  ],
+  "vault_write_access": [
+    "agents/CAO/*",
+    "projects/*"
+  ],
+  "peers": [
+    "CEO",
+    "CTO",
+    "CMO",
+    "CPO",
+    "CDO",
+    "CFO",
+    "COO",
+    "CHRO",
+    "CIO",
+    "CSO",
+    "CLO",
+    "CAO-Claude",
+    "CAO-ChatGPT"
+  ],
+  "reports_to": "Founder",
+  "status": "active",
+  "total_projects_completed": 0,
+  "specializations": [
+    "Audit Synthesis",
+    "Consolidated Defect Reporting",
+    "Two-Round Escalation Cap Enforcement"
+  ]
+}

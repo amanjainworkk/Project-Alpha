@@ -1,0 +1,51 @@
+{
+  "agent_id": "CIO",
+  "role": "Chief Information Officer",
+  "full_title": "Chief Information Officer",
+  "version": "1.0.0",
+  "created_date": "2026-11-07T13:37:44.201950+00:00",
+  "jd_file": "CIO-Chief-Information-Officer.md",
+  "assigned_model": {
+    "default": "llama3.2",
+    "simple_tasks": "llama3.2",
+    "complex_tasks": "llama3.2"
+  },
+  "skills": [
+    "Vault Storage Custody",
+    "Schema Governance",
+    "Memory Compression",
+    "Data Integrity"
+  ],
+  "communication_style": "executive, structured",
+  "vault_read_access": [
+    "*"
+  ],
+  "vault_write_access": [
+    "agents/CIO/*",
+    "projects/*"
+  ],
+  "peers": [
+    "CEO",
+    "CTO",
+    "CMO",
+    "CPO",
+    "CDO",
+    "CFO",
+    "COO",
+    "CHRO",
+    "CSO",
+    "CLO",
+    "CAO-Claude",
+    "CAO-ChatGPT",
+    "CAO"
+  ],
+  "reports_to": "CEO",
+  "status": "active",
+  "total_projects_completed": 0,
+  "specializations": [
+    "Vault Storage Custody",
+    "Schema Governance",
+    "Memory Compression",
+    "Data Integrity"
+  ]
+}
