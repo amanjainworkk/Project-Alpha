@@ -41,11 +41,15 @@ class AlphaApp extends StatelessWidget {
         // 1. Core Network & Telemetry Services
         // ---------------------------------------------------------------------
         Provider<AlphaApiClient>(
-          create: (_) => AlphaApiClient(),
+          create: (_) => AlphaApiClient(
+            baseUrl: 'https://blogging-paths-worth-lending.trycloudflare.com',
+          ),
           dispose: (_, client) => client.dispose(),
         ),
         Provider<AlphaWebSocketService>(
-          create: (_) => AlphaWebSocketService(),
+          create: (_) => AlphaWebSocketService(
+            host: 'blogging-paths-worth-lending.trycloudflare.com',
+          ),
           dispose: (_, ws) => ws.dispose(),
         ),
 
