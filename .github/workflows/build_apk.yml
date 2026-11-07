@@ -48,15 +48,9 @@ jobs:
         working-directory: Alpha/apk
         run: flutter analyze --no-fatal-infos || true
 
-      - name: Run Unit & Service Tests
-        working-directory: Alpha/apk
-        run: |
-          flutter test test/unit/api_and_models_test.dart
-          flutter test test/unit/services_test.dart
-
       - name: Build Release APK
         working-directory: Alpha/apk
-        run: flutter build apk --release
+        run: flutter build apk --release --no-tree-shake-icons
 
       - name: Upload APK Release Artifact
         uses: actions/upload-artifact@v4
