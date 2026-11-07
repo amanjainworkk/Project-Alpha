@@ -204,10 +204,14 @@ class AlphaWebSocketService {
     if (token != null && token!.trim().isNotEmpty) {
       queryParams['token'] = token!.trim();
     }
+    final bool isSecure = host.contains('trycloudflare.com') || host.startsWith('wss://') || host.startsWith('https://');
+    final String cleanHost = host.contains(':') ? host.split(':')[0] : host;
+    final int? port = host.contains(':') ? int.tryParse(host.split(':')[1]) : (isSecure ? 443 : 8765);
+
     return Uri(
-      scheme: 'ws',
-      host: host.contains(':') ? host.split(':')[0] : host,
-      port: host.contains(':') ? int.tryParse(host.split(':')[1]) : 8765,
+      scheme: isSecure ? 'wss' : 'ws',
+      host: cleanHost,
+      port: (port == 443 || port == 80) ? null : port,
       path: defaultPath,
       queryParameters: queryParams.isNotEmpty ? queryParams : null,
     );

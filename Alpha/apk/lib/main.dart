@@ -42,13 +42,15 @@ class AlphaApp extends StatelessWidget {
         // ---------------------------------------------------------------------
         Provider<AlphaApiClient>(
           create: (_) => AlphaApiClient(
-            baseUrl: 'https://blogging-paths-worth-lending.trycloudflare.com',
+            baseUrl: 'https://currencies-destinations-harmony-insurance.trycloudflare.com',
+            token: 'test_alpha_bearer_token_secret_xyz789',
           ),
           dispose: (_, client) => client.dispose(),
         ),
         Provider<AlphaWebSocketService>(
           create: (_) => AlphaWebSocketService(
-            host: 'blogging-paths-worth-lending.trycloudflare.com',
+            host: 'currencies-destinations-harmony-insurance.trycloudflare.com',
+            token: 'test_alpha_bearer_token_secret_xyz789',
           ),
           dispose: (_, ws) => ws.dispose(),
         ),
