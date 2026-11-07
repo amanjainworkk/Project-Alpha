@@ -45,7 +45,9 @@ class ConnectionProvider extends ChangeNotifier {
     IHealthApiClient? healthClient,
   })  : _apiClient = apiClient,
         _wsService = wsService,
-        _healthClient = healthClient;
+        _healthClient = healthClient,
+        _backendBaseUrl = apiClient?.baseUrl ?? 'http://10.0.2.2:8765',
+        _websocketUrl = wsService != null ? 'wss://${wsService.host}/ws' : 'ws://10.0.2.2:8765/ws';
 
   // Getters
   ConnectionStatus get status => _status;
@@ -122,6 +124,8 @@ class ConnectionProvider extends ChangeNotifier {
       _wsEnvelopeSubscription = _wsService?.onEnvelope.listen((envelope) {
         handleWebSocketEnvelope(envelope);
       });
+
+      _wsService?.connect();
     }
     await checkHealth();
   }
