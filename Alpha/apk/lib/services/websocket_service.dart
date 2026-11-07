@@ -40,7 +40,12 @@ class AlphaWebSocketService {
   static const Duration defaultMaxRetryDelay = Duration(seconds: 30);
 
   /// Desktop backend host and port (e.g. "10.0.2.2:8765" or "127.0.0.1:8765").
-  final String host;
+  String host;
+
+  void updateHost(String newHost) {
+    host = _normalizeHost(newHost);
+    reconnect();
+  }
 
   /// Bearer token for query-based WebSocket handshake authentication.
   String? token;

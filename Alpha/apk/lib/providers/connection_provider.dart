@@ -79,6 +79,8 @@ class ConnectionProvider extends ChangeNotifier {
   void updateEndpoints({required String baseUrl, required String wsUrl}) {
     _backendBaseUrl = baseUrl;
     _websocketUrl = wsUrl;
+    _apiClient?.updateBaseUrl(baseUrl);
+    _wsService?.updateHost(wsUrl);
     notifyListeners();
   }
 

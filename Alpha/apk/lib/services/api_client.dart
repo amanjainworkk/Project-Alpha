@@ -74,7 +74,11 @@ class AlphaApiClient {
   static const Duration defaultTimeout = Duration(seconds: 10);
 
   /// Root URL of the Project Alpha FastAPI Desktop backend (e.g. "http://10.0.2.2:8765").
-  final String baseUrl;
+  String baseUrl;
+
+  void updateBaseUrl(String newUrl) {
+    baseUrl = _normalizeBaseUrl(newUrl);
+  }
 
   /// Bearer token for authenticating against ALPHA_TOKEN protected routes.
   String? token;
