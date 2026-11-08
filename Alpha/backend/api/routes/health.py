@@ -2,13 +2,29 @@
 
 from __future__ import annotations
 
+import os
 import time
 from typing import Any, Dict
 from fastapi import APIRouter, Request, status
+from fastapi.responses import FileResponse, Response
 
 from backend.api.schemas import HealthCheckResponse
 
 router = APIRouter(tags=["health"])
+
+
+@router.get("/download/apk", summary="Download Project Alpha Android APK")
+@router.get("/download/alpha.apk", summary="Download Project Alpha Android APK")
+def download_apk() -> Response:
+    """Direct APK download route for mobile installation."""
+    apk_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "apk", "release_output", "app-release.apk"))
+    if not os.path.exists(apk_path):
+        return Response(content="APK not found on host", status_code=404)
+    return FileResponse(
+        path=apk_path,
+        filename="app-release.apk",
+        media_type="application/vnd.android.package-archive"
+    )
 
 
 @router.get(
