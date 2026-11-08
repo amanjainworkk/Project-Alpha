@@ -126,6 +126,26 @@ class AlphaOrchestrator:
         )
 
         self._active_projects: Dict[str, OrchestratorResult] = {}
+        self.telemetry_manager: Optional[Any] = None
+
+    def attach_telemetry(self, telemetry_manager: Any) -> None:
+        """Attach real-time WebSocket telemetry manager."""
+        self.telemetry_manager = telemetry_manager
+
+    def set_telemetry_manager(self, telemetry_manager: Any) -> None:
+        """Alias for attach_telemetry."""
+        self.telemetry_manager = telemetry_manager
+
+    def _emit_telemetry(self, method_name: str, *args: Any, **kwargs: Any) -> None:
+        """Safely broadcast telemetry event without interrupting execution flow."""
+        tm = getattr(self, "telemetry_manager", None)
+        if tm is not None:
+            try:
+                fn = getattr(tm, method_name, None)
+                if callable(fn):
+                    fn(*args, **kwargs)
+            except Exception as e:
+                logger.debug("Telemetry emit '%s' notice: %s", method_name, e)
 
     def run_goal(
         self,
@@ -144,6 +164,21 @@ class AlphaOrchestrator:
         thread_id = f"thread_{pid}_main"
 
         logger.info("Initializing Alpha goal execution for project '%s': %s", pid, clean_goal)
+
+        # Telemetry: notify goal initiation
+        self._emit_telemetry(
+            "emit_project_state",
+            project_id=pid,
+            new_state="planning",
+            status="planning",
+            title=clean_goal,
+        )
+        self._emit_telemetry(
+            "emit_agent_status",
+            agent_id="CEO",
+            new_status="active",
+            current_task=f"Ingesting goal: {clean_goal[:40]}",
+        )
 
         # --------------------------------------------------------------------
         # Phase 1: DEFINE — Vault Scaffolding & Goal Parsing
@@ -179,6 +214,22 @@ class AlphaOrchestrator:
         schedule_info = self._schedule_workstreams(parsed_workstreams, pid)
         execution_waves = schedule_info.get("waves", [parsed_workstreams])
 
+        # Telemetry: emit scheduled workstreams for Tasks screen
+        for ws in parsed_workstreams:
+            tid = str(ws.get("task_id") or ws.get("id"))
+            role = ws.get("lead_agent") or ws.get("assigned_agent") or "CTO"
+            title = ws.get("title") or ws.get("name") or tid
+            self._emit_telemetry(
+                "emit_task_progress",
+                task_id=tid,
+                task_name=title,
+                progress_percent=10,
+                current_step="Scheduled in execution wave",
+                assigned_agent=role,
+                status="running",
+                project_id=pid,
+            )
+
         # --------------------------------------------------------------------
         # Phase 3: BUILD — Multi-Agent Execution & Deliberation
         # --------------------------------------------------------------------
@@ -204,10 +255,58 @@ class AlphaOrchestrator:
 
         while current_round <= max_audit_rounds:
             logger.info("Invoking Dual CAO Audit Gate Round %d/%d for %s", current_round, max_audit_rounds, pid)
+            self._emit_telemetry(
+                "emit_task_progress",
+                task_id=f"audit_{pid}",
+                task_name="Dual CAO Compliance Verification",
+                progress_percent=85,
+                current_step=f"Running Claude & GPT consensus audit (Round {current_round})",
+                assigned_agent="CAO-Claude",
+                status="auditing",
+                project_id=pid,
+            )
+            self._emit_telemetry(
+                "emit_agent_status",
+                agent_id="CAO-Claude",
+                new_status="auditing",
+                current_task=f"Dual CAO 5-axis audit (Round {current_round})",
+            )
+            self._emit_telemetry(
+                "emit_agent_status",
+                agent_id="CAO-ChatGPT",
+                new_status="auditing",
+                current_task=f"Dual CAO 5-axis audit (Round {current_round})",
+            )
+
             audit_result = self.dual_cao.audit_deliverables(
                 project_id=pid,
                 deliverables=deliverables,
                 round_num=current_round,
+            )
+
+            composite = (audit_result.claude_score + audit_result.gpt_score) / 2.0
+            self._emit_telemetry(
+                "emit_audit_status",
+                project_id=pid,
+                round_num=current_round,
+                status="passed" if audit_result.passed else ("escalated_to_founder" if audit_result.escalation_required or current_round >= max_audit_rounds else "rejected"),
+                passed=audit_result.passed,
+                claude_score=audit_result.claude_score,
+                gpt_score=audit_result.gpt_score,
+                composite_score=composite,
+                p0_defects_count=len(audit_result.p0_defects),
+                p1_defects_count=len(audit_result.p1_defects),
+                escalation_required=audit_result.escalation_required,
+            )
+            self._emit_telemetry(
+                "emit_task_progress",
+                task_id=f"audit_{pid}",
+                task_name="Dual CAO Compliance Verification",
+                progress_percent=100,
+                current_step="Audit Complete: CLEAN" if audit_result.passed else "Audit Complete: Violations detected",
+                assigned_agent="CAO-Claude",
+                status="done" if audit_result.passed else "blocked",
+                project_id=pid,
             )
 
             if audit_result.passed:
@@ -272,6 +371,22 @@ class AlphaOrchestrator:
         )
 
         self._active_projects[pid] = res
+
+        self._emit_telemetry(
+            "emit_project_state",
+            project_id=pid,
+            new_state=str(final_status.value),
+            status=str(final_status.value),
+            title=clean_goal,
+            progress=1.0 if final_status == OrchestratorStatus.COMPLETED else 0.8,
+        )
+        self._emit_telemetry(
+            "emit_agent_status",
+            agent_id="CEO",
+            new_status="active",
+            current_task="Execution complete - Ready for next directive",
+        )
+
         return res
 
     # ------------------------------------------------------------------------
@@ -388,28 +503,74 @@ class AlphaOrchestrator:
         for task in tasks:
             role = task.get("lead_agent") or task.get("assigned_agent") or "CTO"
             key = task.get("deliverable_key") or f"{role.lower()}_deliverable"
+            tid = str(task.get("task_id") or task.get("id"))
+            title = task.get("title") or task.get("name") or tid
             agent = self.agent_registry.get(role)
+
+            self._emit_telemetry(
+                "emit_node_flow_pulse",
+                source_agent="CEO",
+                target_agent=role,
+                message_type="DELEGATION",
+                project_id=project_id,
+                preview=f"Delegated {title}",
+            )
+            self._emit_telemetry(
+                "emit_agent_status",
+                agent_id=role,
+                new_status="active",
+                current_task=title,
+            )
+            self._emit_telemetry(
+                "emit_task_progress",
+                task_id=tid,
+                task_name=title,
+                progress_percent=45,
+                current_step="Synthesizing domain deliverable",
+                assigned_agent=role,
+                status="running",
+                project_id=project_id,
+            )
 
             if agent and hasattr(agent, "think"):
                 prompt = f"Execute task '{task.get('title')}' for project '{project_id}'. Upstream deliverables: {list(existing_deliverables.keys())}"
                 output = agent.think(prompt, complexity=3, task_type="operational_task")
                 deliverable_payload = {
-                    "task_id": task.get("task_id") or task.get("id"),
-                    "title": task.get("title") or task.get("name"),
+                    "task_id": tid,
+                    "title": title,
                     "role": role,
                     "content": output,
                     "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
             else:
                 deliverable_payload = {
-                    "task_id": task.get("task_id") or task.get("id"),
-                    "title": task.get("title") or task.get("name"),
+                    "task_id": tid,
+                    "title": title,
                     "role": role,
-                    "content": f"Deliverable completed for {task.get('title') or task.get('name')}.",
+                    "content": f"Deliverable completed for {title}.",
                     "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
 
             results[key] = deliverable_payload
+
+            self._emit_telemetry(
+                "emit_task_progress",
+                task_id=tid,
+                task_name=title,
+                progress_percent=100,
+                current_step="Deliverable completed",
+                assigned_agent=role,
+                status="done",
+                project_id=project_id,
+            )
+            self._emit_telemetry(
+                "emit_node_flow_pulse",
+                source_agent=role,
+                target_agent="DualCAO",
+                message_type="DELIVERABLE",
+                project_id=project_id,
+                preview=f"Submitted deliverable for {title}",
+            )
 
             # Persist to Vault (delegated tasks for CAO are written under CEO authority to comply with Vault RBAC)
             try:

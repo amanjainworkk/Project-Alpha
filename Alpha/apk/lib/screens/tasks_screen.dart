@@ -91,6 +91,166 @@ class _TasksScreenState extends State<TasksScreen> {
     super.dispose();
   }
 
+  void _showDispatchGoalDialog(BuildContext context) {
+    final titleController = TextEditingController();
+    const String selectedPriority = 'high';
+    final List<String> presetDirectives = [
+      'Launch Sovereign Archify Canvas',
+      'Dual CAO Security & Architecture Sweep',
+      'Deploy Mobile WebSocket Telemetry Stream',
+      'Execute Cross-Functional GTM Strategy',
+    ];
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: AlphaColors.surfaceLevel1,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        side: BorderSide(color: AlphaColors.border),
+      ),
+      builder: (sheetContext) {
+        return StatefulBuilder(
+          builder: (context, setSheetState) {
+            return Padding(
+              padding: EdgeInsets.only(
+                left: 20,
+                right: 20,
+                top: 16,
+                bottom: MediaQuery.of(sheetContext).viewInsets.bottom + 24,
+              ),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Center(
+                      child: Container(
+                        width: 40,
+                        height: 4,
+                        decoration: BoxDecoration(
+                          color: AlphaColors.border,
+                          borderRadius: BorderRadius.circular(2),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      children: const [
+                        Icon(Icons.rocket_launch_rounded, color: AlphaColors.primaryCyan, size: 20),
+                        SizedBox(width: 8),
+                        Text(
+                          'DISPATCH AUTONOMOUS DIRECTIVE',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: AlphaColors.textPrimary,
+                            letterSpacing: 0.5,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 6),
+                    const Text(
+                      'Assign a mission to the CEO. The orchestrator will decompose workstreams and mobilize CTO, COO, CMO, CDO, and Dual CAO audit officers.',
+                      style: TextStyle(fontSize: 12, color: AlphaColors.textMuted, height: 1.3),
+                    ),
+                    const SizedBox(height: 14),
+                    const Text(
+                      'QUICK TEMPLATES',
+                      style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: AlphaColors.textSecondary, letterSpacing: 0.5),
+                    ),
+                    const SizedBox(height: 6),
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 6,
+                      children: presetDirectives.map((preset) {
+                        return ActionChip(
+                          backgroundColor: AlphaColors.surfaceLevel2,
+                          side: const BorderSide(color: AlphaColors.border),
+                          label: Text(preset, style: const TextStyle(fontSize: 11, color: AlphaColors.textSecondary)),
+                          onPressed: () {
+                            setSheetState(() {
+                              titleController.text = preset;
+                            });
+                          },
+                        );
+                      }).toList(),
+                    ),
+                    const SizedBox(height: 14),
+                    TextField(
+                      controller: titleController,
+                      style: const TextStyle(fontSize: 14, color: AlphaColors.textPrimary),
+                      decoration: InputDecoration(
+                        labelText: 'Directive Objective',
+                        labelStyle: const TextStyle(color: AlphaColors.textSecondary, fontSize: 13),
+                        hintText: 'e.g. Build and deploy sovereign agent canvas...',
+                        hintStyle: const TextStyle(color: AlphaColors.textMuted, fontSize: 13),
+                        fillColor: AlphaColors.surfaceLevel2,
+                        filled: true,
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: AlphaColors.border)),
+                        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: AlphaColors.border)),
+                        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: AlphaColors.primaryCyan, width: 1.5)),
+                      ),
+                      maxLines: 2,
+                    ),
+                    const SizedBox(height: 16),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 46,
+                      child: ElevatedButton.icon(
+                        icon: const Icon(Icons.flash_on_rounded, color: AlphaColors.backgroundOled, size: 18),
+                        label: const Text(
+                          'MOBILIZE BOARDROOM',
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                            color: AlphaColors.backgroundOled,
+                            letterSpacing: 0.5,
+                          ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AlphaColors.primaryCyan,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                        ),
+                        onPressed: () async {
+                          final goalText = titleController.text.trim();
+                          if (goalText.isEmpty) return;
+                          Navigator.pop(sheetContext);
+
+                          final projectProvider = context.read<ProjectProvider>();
+                          final taskProvider = context.read<TaskProvider>();
+                          taskProvider.clearSeedTasks();
+
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: AlphaColors.surfaceLevel2,
+                              content: Text(
+                                'Directive dispatched to CEO & Boardroom: ' + goalText,
+                                style: const TextStyle(color: AlphaColors.primaryCyan, fontSize: 12),
+                              ),
+                              duration: const Duration(seconds: 4),
+                            ),
+                          );
+
+                          await projectProvider.submitGoal(
+                            title: goalText,
+                            description: goalText,
+                            priority: selectedPriority,
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
   void _showExecutionLogs(BuildContext context, TaskProvider taskProvider) {
     showModalBottomSheet(
       context: context,
@@ -189,6 +349,20 @@ class _TasksScreenState extends State<TasksScreen> {
 
         return Scaffold(
           backgroundColor: AlphaColors.backgroundOled,
+          floatingActionButton: FloatingActionButton.extended(
+            backgroundColor: AlphaColors.primaryCyan,
+            icon: const Icon(Icons.rocket_launch_rounded, color: AlphaColors.backgroundOled, size: 18),
+            label: const Text(
+              'DISPATCH GOAL',
+              style: TextStyle(
+                color: AlphaColors.backgroundOled,
+                fontWeight: FontWeight.bold,
+                fontSize: 12,
+                letterSpacing: 0.5,
+              ),
+            ),
+            onPressed: () => _showDispatchGoalDialog(context),
+          ),
           body: Column(
             children: [
               // 1. Overall Progress Header Card
@@ -284,7 +458,12 @@ class _TasksScreenState extends State<TasksScreen> {
                     ),
                     const SizedBox(width: 8),
                     IconButton(
-                      icon: const Icon(Icons.terminal, color: AlphaColors.primaryCyan),
+                      icon: const Icon(Icons.rocket_launch_rounded, color: AlphaColors.primaryCyan),
+                      tooltip: 'Dispatch New Directive',
+                      onPressed: () => _showDispatchGoalDialog(context),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.terminal, color: AlphaColors.textSecondary),
                       tooltip: 'View Execution Logs',
                       onPressed: () => _showExecutionLogs(context, taskProvider),
                     ),

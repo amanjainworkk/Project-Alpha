@@ -3,12 +3,18 @@
 from __future__ import annotations
 
 import logging
+import re
 from typing import Any, Dict, List
-from fastapi import APIRouter, Depends, HTTPException, Query, status
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Query, status
 
 from backend.agents.agent_registry import CANONICAL_AGENT_METADATA, AgentRegistry
 from backend.api.auth import verify_token
-from backend.api.deps import get_agent_registry, get_vault_manager
+from backend.api.deps import (
+    get_agent_registry,
+    get_connection_manager,
+    get_orchestrator,
+    get_vault_manager,
+)
 from backend.api.schemas import (
     AgentCard,
     AgentDetail,
@@ -178,8 +184,11 @@ def get_agent_profile(
 def message_agent(
     id: str,
     request: AgentDirectMessageRequest,
+    background_tasks: BackgroundTasks,
     agent_registry: Any = Depends(get_agent_registry),
     vault_manager: VaultManager = Depends(get_vault_manager),
+    orchestrator: Any = Depends(get_orchestrator),
+    connection_manager: Any = Depends(get_connection_manager),
 ) -> Dict[str, Any]:
     """Directly message an executive agent and receive an immediate strategic response."""
     clean_id = id.strip()
@@ -200,7 +209,39 @@ def message_agent(
         )
 
     clean_msg = request.message.strip()
-    if agent is not None and hasattr(agent, "think"):
+
+    # Autonomous Multi-Agent Dispatch: If addressed to CEO with a directive command
+    if clean_id.upper() == "CEO" and clean_msg.lower().startswith(("/goal", "/directive", "dispatch:", "execute:")):
+        goal_text = re.sub(r"^/(goal|directive)\s*", "", clean_msg, flags=re.IGNORECASE).strip()
+        if not goal_text or goal_text.startswith(":"):
+            goal_text = goal_text.lstrip(":").strip()
+        if not goal_text:
+            goal_text = clean_msg
+
+        project_id = vault_manager.create_project(
+            title=goal_text[:50],
+            description=goal_text,
+            founder_goals=[goal_text],
+        )
+
+        if connection_manager is not None and hasattr(connection_manager, "attach_orchestrator"):
+            try:
+                connection_manager.attach_orchestrator(orchestrator)
+            except Exception as e:
+                logger.debug("Attach orchestrator notice: %s", e)
+
+        if orchestrator is not None and hasattr(orchestrator, "run_goal"):
+            background_tasks.add_task(
+                orchestrator.run_goal,
+                goal=goal_text,
+                project_id=project_id,
+            )
+
+        response_text = (
+            f"Directive acknowledged, Founder. Goal '{goal_text[:60]}' has been dispatched to the Executive Boardroom. "
+            f"CTO, COO, CDO, and Dual CAO workstreams are running. View live progress on Tasks & Canvas."
+        )
+    elif agent is not None and hasattr(agent, "think"):
         response_text = agent.think(clean_msg, complexity=2, task_type="direct_query")
     else:
         response_text = f"[{clean_id}] Acknowledged instruction: {clean_msg}"

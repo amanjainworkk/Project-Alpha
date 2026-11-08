@@ -511,6 +511,12 @@ class ConnectionManager:
 
     def attach_orchestrator(self, orchestrator: Any) -> None:
         """Wire real-time broadcast hooks into AlphaOrchestrator and ThreadManager."""
+        if orchestrator is not None:
+            if hasattr(orchestrator, "attach_telemetry") and callable(orchestrator.attach_telemetry):
+                orchestrator.attach_telemetry(self)
+            else:
+                setattr(orchestrator, "telemetry_manager", self)
+
         if self._orchestrator_hook_registered:
             return
 

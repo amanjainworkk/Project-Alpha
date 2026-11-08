@@ -28,11 +28,11 @@ class _ChatScreenState extends State<ChatScreen> {
   StreamSubscription? _threadSub;
 
   final List<String> _quickSuggestions = [
-    'Audit System Integrity',
+    '/goal Audit System Integrity & Architecture',
+    '/goal Launch Sovereign Multi-Agent Sprint',
+    '/goal Deploy Mobile Telemetry Engine',
     'Summarize Project Status',
-    'Run Security Sweep',
     'Review Token Spend',
-    'Delegate Architecture Design',
     'Check CAO Compliance',
   ];
 
@@ -132,6 +132,12 @@ class _ChatScreenState extends State<ChatScreen> {
       timestamp: DateTime.now().toIso8601String().substring(11, 19),
       messageType: 'DIRECTIVE',
     );
+
+    if (cleanText.toLowerCase().startsWith('/goal') || cleanText.toLowerCase().startsWith('/directive')) {
+      try {
+        context.read<TaskProvider>().clearSeedTasks();
+      } catch (_) {}
+    }
 
     setState(() {
       _messages.add(userMsg);
@@ -486,6 +492,18 @@ class _ChatScreenState extends State<ChatScreen> {
               top: false,
               child: Row(
                 children: [
+                  IconButton(
+                    icon: const Icon(Icons.rocket_launch_rounded, color: AlphaColors.primaryCyan, size: 20),
+                    tooltip: 'Prepend /goal for Boardroom multi-agent execution',
+                    onPressed: () {
+                      if (!_textController.text.startsWith('/goal ')) {
+                        _textController.text = '/goal ' + _textController.text;
+                        _textController.selection = TextSelection.fromPosition(
+                          TextPosition(offset: _textController.text.length),
+                        );
+                      }
+                    },
+                  ),
                   Expanded(
                     child: TextField(
                       controller: _textController,

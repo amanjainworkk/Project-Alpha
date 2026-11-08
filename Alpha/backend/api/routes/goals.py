@@ -76,6 +76,11 @@ def submit_goal(
 
     # 3. Queue asynchronous autonomous execution if orchestrator available
     if orchestrator is not None and hasattr(orchestrator, "run_goal"):
+        if connection_manager is not None and hasattr(connection_manager, "attach_orchestrator"):
+            try:
+                connection_manager.attach_orchestrator(orchestrator)
+            except Exception as e:
+                logger.debug("Failed attaching orchestrator to connection manager: %s", e)
         full_directive = f"{clean_title}: {clean_desc}" if clean_desc != clean_title else clean_title
         background_tasks.add_task(
             orchestrator.run_goal,

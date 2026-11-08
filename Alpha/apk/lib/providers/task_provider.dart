@@ -87,9 +87,25 @@ class TaskProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void clearSeedTasks() {
+    bool removed = false;
+    for (final id in ['task_001', 'task_002', 'task_003', 'task_004']) {
+      if (_tasks.containsKey(id)) {
+        _tasks.remove(id);
+        removed = true;
+      }
+    }
+    if (removed) {
+      notifyListeners();
+    }
+  }
+
   /// Handles real-time 'task_progress_update' events
   void handleTaskProgressUpdate(Map<String, dynamic> data) {
     final task = TaskProgress.fromJson(data);
+    if (!task.taskId.startsWith('task_00')) {
+      clearSeedTasks();
+    }
     _tasks[task.taskId] = task;
     addLog('[${task.assignedAgent}] ${task.taskName.isNotEmpty ? task.taskName : task.taskId}: ${task.currentStep} (${task.progressPercent}%)');
     notifyListeners();
