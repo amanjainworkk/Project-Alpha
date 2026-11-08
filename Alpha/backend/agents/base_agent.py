@@ -642,9 +642,22 @@ class BaseExecutiveAgent(abc.ABC):
         self.telemetry.total_cost_usd += response.cost_usd
         self.telemetry.last_latency_ms = response.latency_ms
 
-        # Record thought trace to working memory
-        preview = response.content[:120].replace("\n", " ")
-        self.record_thought(f"Inference output for '{task_type}': {preview}...", importance=1)
+        # Record thought trace to working memory (exclude direct queries to avoid memory pollution)
+        if task_type != "direct_query":
+            preview = response.content[:120].replace("\n", " ")
+            self.record_thought(f"Inference output for '{task_type}': {preview}...", importance=1)
+
+        # Sanitize output from accidental prompt header echo
+        clean_content = response.content
+        if "## CEO'S RESPONSE:" in clean_content:
+            clean_content = clean_content.split("## CEO'S RESPONSE:")[-1].strip()
+        elif "## CEO's Response:" in clean_content:
+            clean_content = clean_content.split("## CEO's Response:")[-1].strip()
+        elif "## RESPONSE:" in clean_content:
+            clean_content = clean_content.split("## RESPONSE:")[-1].strip()
+        if clean_content.startswith("- [reaction]:"):
+            clean_content = clean_content[len("- [reaction]:"):].strip()
+        response.content = clean_content
 
         return response
 
@@ -741,14 +754,17 @@ class BaseExecutiveAgent(abc.ABC):
         if task_tokens > budget:
             return self.prune_context(task_input, max_tokens=budget)
 
-        # 2. Extract recent memories within memory budget
+        # 2. Extract recent memories within memory budget (min_importance=2 excludes trivial scratchpad traces)
         memory_budget = min(self.MEMORY_BUDGET_TOKENS, budget - task_tokens)
-        recent_mems = self.get_recent_memories(n=5)
+        recent_mems = self.get_recent_memories(n=5, min_importance=2)
         mem_snippets: List[str] = []
         cur_mem_tokens = 0
 
         for m in recent_mems:
-            snippet = f"- [{m.get('memory_type', m.get('type', 'observation'))}]: {m.get('memory_content') or m.get('content', '')}"
+            content = m.get('memory_content') or m.get('content', '')
+            if "Inference output for" in content:
+                continue
+            snippet = f"- [{m.get('memory_type', m.get('type', 'observation'))}]: {content}"
             snip_tokens = estimate_tokens(snippet)
             if cur_mem_tokens + snip_tokens > memory_budget:
                 break
