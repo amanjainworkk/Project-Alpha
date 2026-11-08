@@ -117,15 +117,26 @@ class AlphaWebSocketService {
   /// Strips protocol schemes and trailing slashes to isolate host:port.
   static String _normalizeHost(String rawHost) {
     var clean = rawHost.trim();
+    if (clean.contains('://')) {
+      try {
+        final parsed = Uri.parse(clean);
+        if (parsed.host.isNotEmpty) {
+          return parsed.hasPort ? '${parsed.host}:${parsed.port}' : parsed.host;
+        }
+      } catch (_) {}
+    }
     if (clean.startsWith('ws://') || clean.startsWith('http://')) {
       clean = clean.substring(clean.indexOf('://') + 3);
     } else if (clean.startsWith('wss://') || clean.startsWith('https://')) {
       clean = clean.substring(clean.indexOf('://') + 3);
     }
+    if (clean.contains('/')) {
+      clean = clean.split('/')[0];
+    }
     while (clean.endsWith('/')) {
       clean = clean.substring(0, clean.length - 1);
     }
-    return clean;
+    return clean.trim();
   }
 
   // ==========================================================================
@@ -204,13 +215,17 @@ class AlphaWebSocketService {
     if (token != null && token!.trim().isNotEmpty) {
       queryParams['token'] = token!.trim();
     }
-    final bool isSecure = host.contains('trycloudflare.com') || host.startsWith('wss://') || host.startsWith('https://');
-    final String cleanHost = host.contains(':') ? host.split(':')[0] : host;
-    final int? port = host.contains(':') ? int.tryParse(host.split(':')[1]) : (isSecure ? 443 : 8765);
+    final bool isSecure = host.contains('trycloudflare.com') ||
+        host.startsWith('wss://') ||
+        host.startsWith('https://') ||
+        !host.contains(':8765');
+    final String cleanHost = host.contains('/') ? host.split('/')[0] : host;
+    final String actualHost = cleanHost.contains(':') ? cleanHost.split(':')[0] : cleanHost;
+    final int? port = cleanHost.contains(':') ? int.tryParse(cleanHost.split(':')[1]) : (isSecure ? 443 : 8765);
 
     return Uri(
       scheme: isSecure ? 'wss' : 'ws',
-      host: cleanHost,
+      host: actualHost,
       port: (port == 443 || port == 80) ? null : port,
       path: defaultPath,
       queryParameters: queryParams.isNotEmpty ? queryParams : null,

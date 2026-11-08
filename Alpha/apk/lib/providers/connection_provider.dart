@@ -38,6 +38,7 @@ class ConnectionProvider extends ChangeNotifier {
   double _serverCpuPercent = 0.0;
   String? _lastError;
   bool _isBackendReachable = false;
+  Timer? _healthTimer;
 
   ConnectionProvider({
     AlphaApiClient? apiClient,
@@ -51,11 +52,11 @@ class ConnectionProvider extends ChangeNotifier {
 
   // Getters
   ConnectionStatus get status => _status;
-  bool get isConnected => _status == ConnectionStatus.connected;
+  bool get isConnected => _status == ConnectionStatus.connected || _isBackendReachable;
   bool get isConnecting =>
-      _status == ConnectionStatus.connecting || _status == ConnectionStatus.reconnecting;
-  bool get isDisconnected => _status == ConnectionStatus.disconnected;
-  bool get hasError => _status == ConnectionStatus.error || _lastError != null;
+      !isConnected && (_status == ConnectionStatus.connecting || _status == ConnectionStatus.reconnecting);
+  bool get isDisconnected => !isConnected && !isConnecting;
+  bool get hasError => !isConnected && (_status == ConnectionStatus.error || _lastError != null);
 
   int get latencyMs => _latencyMs;
   DateTime? get lastHeartbeatTime => _lastHeartbeatTime;
@@ -72,6 +73,12 @@ class ConnectionProvider extends ChangeNotifier {
 
   // State mutations
   void setStatus(ConnectionStatus newStatus) {
+    if (_isBackendReachable &&
+        (newStatus == ConnectionStatus.connecting ||
+            newStatus == ConnectionStatus.reconnecting ||
+            newStatus == ConnectionStatus.disconnected)) {
+      return;
+    }
     if (_status != newStatus) {
       _status = newStatus;
       notifyListeners();
@@ -128,6 +135,10 @@ class ConnectionProvider extends ChangeNotifier {
       _wsService?.connect();
     }
     await checkHealth();
+    _healthTimer?.cancel();
+    _healthTimer = Timer.periodic(const Duration(seconds: 10), (_) {
+      checkHealth();
+    });
   }
 
   /// Handles real-time 'telemetry_heartbeat' events
@@ -164,10 +175,10 @@ class ConnectionProvider extends ChangeNotifier {
       stopwatch.stop();
       _latencyMs = stopwatch.elapsedMilliseconds;
       _isBackendReachable = healthy;
-      if (healthy && _status != ConnectionStatus.connected) {
+      if (healthy) {
         _status = ConnectionStatus.connected;
+        clearError();
       }
-      clearError();
       notifyListeners();
       return healthy;
     } catch (e) {
@@ -180,6 +191,7 @@ class ConnectionProvider extends ChangeNotifier {
 
   @override
   void dispose() {
+    _healthTimer?.cancel();
     _wsStateSubscription?.cancel();
     _wsEnvelopeSubscription?.cancel();
     super.dispose();

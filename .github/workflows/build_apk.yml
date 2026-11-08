@@ -39,6 +39,14 @@ jobs:
             echo "Generating Android platform wrapper via flutter create..."
             flutter create --platforms=android --org=com.alpha.mobile .
           fi
+          MANIFEST="android/app/src/main/AndroidManifest.xml"
+          if [ -f "$MANIFEST" ]; then
+            echo "Configuring Android network permissions & cleartext traffic..."
+            sed -i 's/<application/<application android:usesCleartextTraffic="true"/' "$MANIFEST"
+            if ! grep -q "android.permission.INTERNET" "$MANIFEST"; then
+              sed -i 's/<manifest[^>]*>/&\n    <uses-permission android:name="android.permission.INTERNET"\/>/' "$MANIFEST"
+            fi
+          fi
 
       - name: Install Flutter Dependencies
         working-directory: Alpha/apk

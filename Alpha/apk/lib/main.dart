@@ -155,9 +155,12 @@ class _AlphaMainScreenState extends State<AlphaMainScreen> {
             onPressed: () {
               final newUrl = controller.text.trim();
               if (newUrl.isNotEmpty) {
-                final wsUrl = newUrl.replaceFirst('http://', 'ws://').replaceFirst('https://', 'wss://') + '/ws';
-                connection.updateEndpoints(baseUrl: newUrl, wsUrl: wsUrl);
+                final cleanBase = newUrl.endsWith('/') ? newUrl.substring(0, newUrl.length - 1) : newUrl;
+                final wsUrl = cleanBase.replaceFirst('http://', 'ws://').replaceFirst('https://', 'wss://') + '/ws';
+                connection.updateEndpoints(baseUrl: cleanBase, wsUrl: wsUrl);
                 connection.checkHealth();
+                context.read<ProjectProvider>().loadProjects();
+                context.read<AgentProvider>().loadAgents();
                 Navigator.pop(ctx);
               }
             },
@@ -230,7 +233,7 @@ class _AlphaMainScreenState extends State<AlphaMainScreen> {
                       ? AlphaColors.warningAmber
                       : AlphaColors.errorRose;
               final String statusText = isConnected
-                  ? 'ONLINE'
+                  ? (connection.latencyMs > 0 ? 'ONLINE ${connection.latencyMs}ms' : 'ONLINE')
                   : isConnecting
                       ? 'CONNECTING'
                       : 'OFFLINE';
@@ -283,6 +286,7 @@ class _AlphaMainScreenState extends State<AlphaMainScreen> {
             icon: const Icon(Icons.refresh, size: 20, color: AlphaColors.textSecondary),
             tooltip: 'Sync Telemetry',
             onPressed: () {
+              context.read<ConnectionProvider>().checkHealth();
               context.read<ProjectProvider>().loadProjects();
               context.read<AgentProvider>().loadAgents();
             },
