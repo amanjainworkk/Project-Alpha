@@ -171,7 +171,7 @@ class _ChatScreenState extends State<ChatScreen> {
             ThreadMessage(
               messageId: 'err_${DateTime.now().millisecondsSinceEpoch}',
               sender: 'CEO',
-              content: 'Autonomous deliberation initiated: $cleanText (Offline telemetry fallback active)',
+              content: 'Directive Notice: $e',
               timestamp: DateTime.now().toIso8601String().substring(11, 19),
               messageType: 'DELIBERATION',
             ),

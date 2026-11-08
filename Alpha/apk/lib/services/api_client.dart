@@ -70,8 +70,8 @@ class AlphaApiClient {
   /// Default base URL for desktop testing or direct loopback.
   static const String defaultLocalhostBaseUrl = 'http://127.0.0.1:8765';
 
-  /// Default HTTP request timeout.
-  static const Duration defaultTimeout = Duration(seconds: 10);
+  /// Default HTTP request timeout (60s to accommodate LLM reasoning cycles).
+  static const Duration defaultTimeout = Duration(seconds: 60);
 
   /// Root URL of the Project Alpha FastAPI Desktop backend (e.g. "http://10.0.2.2:8765").
   String baseUrl;
