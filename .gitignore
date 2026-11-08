@@ -48,3 +48,10 @@ Alpha/apk/.flutter-plugins-dependencies
 *.swo
 .DS_Store
 Thumbs.db
+
+# Cloned tools and local release outputs
+tools/
+scripts/tools/
+Alpha/apk/release_output/
+*.db-wal
+*.db-shm

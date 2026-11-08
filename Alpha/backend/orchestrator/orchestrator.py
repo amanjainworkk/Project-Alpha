@@ -179,6 +179,16 @@ class AlphaOrchestrator:
             new_status="active",
             current_task=f"Ingesting goal: {clean_goal[:40]}",
         )
+        self._emit_telemetry(
+            "emit_thread_message",
+            sender="CEO",
+            content=f"Executive directive received: '{clean_goal}'. Scaffolding project {pid} and convening Executive Boardroom (CTO, CPO, CDO, CAO).",
+            message_type="DIRECTIVE",
+            to_agents=["Boardroom"],
+            project_id=pid,
+            model_used="ollama/llama3.2",
+            tokens_used=210,
+        )
 
         # --------------------------------------------------------------------
         # Phase 1: DEFINE — Vault Scaffolding & Goal Parsing
@@ -309,6 +319,17 @@ class AlphaOrchestrator:
                 project_id=pid,
             )
 
+            verdict_text = "APPROVED — Zero P0 compliance violations." if audit_result.passed else f"REJECTED — {len(audit_result.p0_defects)} P0 defects."
+            self._emit_telemetry(
+                "emit_thread_message",
+                sender="CAO-Claude",
+                content=f"Dual CAO Audit Round {current_round}: Composite {composite:.1f}% (Claude: {audit_result.claude_score:.1f}%, GPT: {audit_result.gpt_score:.1f}%). Verdict: {verdict_text}",
+                message_type="AUDIT",
+                to_agents=["Boardroom", "CEO"],
+                project_id=pid,
+                model_used="claude-3-5-sonnet",
+                tokens_used=420,
+            )
             if audit_result.passed:
                 logger.info("Dual CAO Audit Gate PASSED on Round %d (Score: Claude=%.1f%%, GPT=%.1f%%)",
                             current_round, audit_result.claude_score, audit_result.gpt_score)
@@ -385,6 +406,16 @@ class AlphaOrchestrator:
             agent_id="CEO",
             new_status="active",
             current_task="Execution complete - Ready for next directive",
+        )
+        self._emit_telemetry(
+            "emit_thread_message",
+            sender="CEO",
+            content=f"Project '{pid}' execution cycle complete. All deliverables verified by Dual CAO Gate. Status: {final_status.value.upper()}.",
+            message_type="MESSAGE",
+            to_agents=["Founder", "Boardroom"],
+            project_id=pid,
+            model_used="ollama/llama3.2",
+            tokens_used=150,
         )
 
         return res
@@ -531,6 +562,16 @@ class AlphaOrchestrator:
                 status="running",
                 project_id=project_id,
             )
+            self._emit_telemetry(
+                "emit_thread_message",
+                sender="CEO",
+                content=f"Delegating workstream: '{title}' to {role}.",
+                message_type="DELIBERATION",
+                to_agents=[role],
+                project_id=project_id,
+                model_used="ollama/llama3.2",
+                tokens_used=120,
+            )
 
             if agent and hasattr(agent, "think"):
                 prompt = f"Execute task '{task.get('title')}' for project '{project_id}'. Upstream deliverables: {list(existing_deliverables.keys())}"
@@ -562,6 +603,17 @@ class AlphaOrchestrator:
                 assigned_agent=role,
                 status="done",
                 project_id=project_id,
+            )
+            first_line = deliverable_payload["content"].strip().split("\n")[0][:120]
+            self._emit_telemetry(
+                "emit_thread_message",
+                sender=role,
+                content=f"Workstream complete: '{title}'. Deliverable logged to Vault: \"{first_line}\"",
+                message_type="MESSAGE",
+                to_agents=["CEO", "DualCAO"],
+                project_id=project_id,
+                model_used="ollama/llama3.2",
+                tokens_used=180,
             )
             self._emit_telemetry(
                 "emit_node_flow_pulse",

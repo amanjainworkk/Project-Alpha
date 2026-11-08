@@ -191,10 +191,10 @@ class AlphaWebSocketService {
         .map((env) => env.data);
   }
 
-  /// Typed stream of project state changes and thread messages (events: 'project_state_change', 'thread_message').
+  /// Typed stream of boardroom thread messages (event: 'thread_message').
   Stream<Map<String, dynamic>> get onThreadMessage {
     return _envelopeController.stream
-        .where((env) => env.event == 'thread_message' || env.event == 'project_state_change')
+        .where((env) => env.event == 'thread_message')
         .map((env) => env.data);
   }
 

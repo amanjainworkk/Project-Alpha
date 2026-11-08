@@ -222,229 +222,349 @@ class _CanvasScreenState extends State<CanvasScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AlphaColors.backgroundOled,
-      body: Stack(
-        children: [
-          // 1. Interactive Living Canvas
-          InteractiveViewer(
-            transformationController: _transformController,
-            minScale: 0.4,
-            maxScale: 3.0,
-            boundaryMargin: const EdgeInsets.all(600),
-            constrained: false,
-            child: SizedBox(
-              width: 700,
-              height: 900,
-              child: AnimatedBuilder(
-                animation: _pulseController,
-                builder: (context, _) {
-                  return CustomPaint(
-                    painter: _LivingCanvasPainter(
-                      nodes: _nodes,
-                      edges: _edges,
-                      pulseValue: _pulseController.value,
-                      flowsActive: _flowsActive,
-                      selectedNodeId: _selectedNode?.id,
-                    ),
-                    child: Stack(
-                      children: _nodes.map((node) {
-                        final nodeColor = _getNodeColor(node.type);
-                        final isSelected = _selectedNode?.id == node.id;
+      body: Consumer<TaskProvider>(
+        builder: (context, taskProvider, _) {
+          final runningTasks = taskProvider.runningTasks;
+          final auditingTasks = taskProvider.auditingTasks;
+          final bool isSystemActive = runningTasks.isNotEmpty || auditingTasks.isNotEmpty;
 
-                        return Positioned(
-                          left: node.dx - 60,
-                          top: node.dy - 30,
-                          child: GestureDetector(
-                            onTap: () => _showNodeInspector(node),
-                            child: Container(
-                              width: 120,
-                              height: 60,
-                              padding: const EdgeInsets.all(6),
-                              decoration: BoxDecoration(
-                                color: AlphaColors.surfaceCanvas,
-                                borderRadius: BorderRadius.circular(8),
-                                border: Border.all(
-                                  color: isSelected ? AlphaColors.primaryCyanNeon : nodeColor,
-                                  width: isSelected ? 2.0 : 1.0,
+          // Compute dynamic node status & active workstreams
+          final activeAgents = <String>{};
+          for (final t in runningTasks) {
+            activeAgents.add(t.assignedAgent.toLowerCase());
+          }
+          for (final t in auditingTasks) {
+            activeAgents.add(t.assignedAgent.toLowerCase());
+          }
+
+          // Build dynamic edges: ONLY pulse when system has active work and matching workstreams!
+          final dynamicEdges = [
+            GraphEdge(
+              sourceId: 'founder',
+              targetId: 'ceo',
+              label: 'Directives',
+              isPulsing: isSystemActive,
+              latencyMs: 4,
+            ),
+            GraphEdge(
+              sourceId: 'ceo',
+              targetId: 'cto',
+              label: 'Delegation',
+              isPulsing: isSystemActive && (activeAgents.contains('cto') || activeAgents.contains('cpo') || activeAgents.contains('cdo')),
+              latencyMs: 6,
+            ),
+            GraphEdge(
+              sourceId: 'ceo',
+              targetId: 'cao_engine',
+              label: 'Audit Gate',
+              isPulsing: isSystemActive && (activeAgents.contains('cao') || activeAgents.contains('cao-claude') || activeAgents.contains('cao-chatgpt') || auditingTasks.isNotEmpty),
+              latencyMs: 8,
+            ),
+            GraphEdge(
+              sourceId: 'cto',
+              targetId: 'api_gateway',
+              label: 'Execution',
+              isPulsing: isSystemActive && (activeAgents.contains('cto') || activeAgents.contains('coo')),
+              latencyMs: 12,
+            ),
+            GraphEdge(
+              sourceId: 'api_gateway',
+              targetId: 'model_router',
+              label: 'Inference',
+              isPulsing: isSystemActive,
+              latencyMs: 18,
+            ),
+            GraphEdge(
+              sourceId: 'api_gateway',
+              targetId: 'vault_sqlite',
+              label: 'KV Read/Write',
+              isPulsing: isSystemActive,
+              latencyMs: 5,
+            ),
+            GraphEdge(
+              sourceId: 'api_gateway',
+              targetId: 'vault_chroma',
+              label: 'Vector Search',
+              isPulsing: isSystemActive,
+              latencyMs: 22,
+            ),
+          ];
+
+          String activeTaskName = 'Standby';
+          int activeProgress = 0;
+          if (runningTasks.isNotEmpty) {
+            activeTaskName = runningTasks.first.taskName;
+            activeProgress = runningTasks.first.progressPercent;
+          } else if (auditingTasks.isNotEmpty) {
+            activeTaskName = auditingTasks.first.taskName;
+            activeProgress = auditingTasks.first.progressPercent;
+          }
+
+          return Stack(
+            children: [
+              // 1. Interactive Living Canvas
+              InteractiveViewer(
+                transformationController: _transformController,
+                minScale: 0.4,
+                maxScale: 3.0,
+                boundaryMargin: const EdgeInsets.all(600),
+                constrained: false,
+                child: SizedBox(
+                  width: 700,
+                  height: 900,
+                  child: AnimatedBuilder(
+                    animation: _pulseController,
+                    builder: (context, _) {
+                      return CustomPaint(
+                        painter: _LivingCanvasPainter(
+                          nodes: _nodes,
+                          edges: dynamicEdges,
+                          pulseValue: _pulseController.value,
+                          flowsActive: _flowsActive && isSystemActive,
+                          selectedNodeId: _selectedNode?.id,
+                        ),
+                        child: Stack(
+                          children: _nodes.map((node) {
+                            final nodeColor = _getNodeColor(node.type);
+                            final isSelected = _selectedNode?.id == node.id;
+
+                            // Determine dynamic activity label for this node
+                            String nodeStatusText = node.type.toUpperCase();
+                            bool isNodeWorking = false;
+                            if (node.id == 'cto' && (activeAgents.contains('cto') || activeAgents.contains('cpo') || activeAgents.contains('cdo'))) {
+                              isNodeWorking = true;
+                              nodeStatusText = 'WORKING ($activeProgress%)';
+                            } else if (node.id == 'cao_engine' && (activeAgents.contains('cao') || activeAgents.contains('cao-claude') || auditingTasks.isNotEmpty)) {
+                              isNodeWorking = true;
+                              nodeStatusText = 'AUDITING ($activeProgress%)';
+                            } else if (node.id == 'ceo' && isSystemActive) {
+                              isNodeWorking = true;
+                              nodeStatusText = 'DISPATCHING';
+                            } else if (!isSystemActive && (node.type == 'agent' || node.type == 'service')) {
+                              nodeStatusText = 'IDLE';
+                            }
+
+                            final Color activeColor = isNodeWorking
+                                ? AlphaColors.primaryCyanNeon
+                                : nodeColor;
+
+                            return Positioned(
+                              left: node.dx - 60,
+                              top: node.dy - 30,
+                              child: GestureDetector(
+                                onTap: () => _showNodeInspector(node),
+                                child: Container(
+                                  width: 120,
+                                  height: 60,
+                                  padding: const EdgeInsets.all(6),
+                                  decoration: BoxDecoration(
+                                    color: AlphaColors.surfaceCanvas,
+                                    borderRadius: BorderRadius.circular(8),
+                                    border: Border.all(
+                                      color: isSelected
+                                          ? AlphaColors.primaryCyanNeon
+                                          : (isNodeWorking ? AlphaColors.primaryCyanNeon : nodeColor),
+                                      width: (isSelected || isNodeWorking) ? 2.0 : 1.0,
+                                    ),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: (isSelected ? AlphaColors.primaryCyanNeon : activeColor)
+                                            .withOpacity(isNodeWorking ? 0.6 : 0.2),
+                                        blurRadius: (isSelected || isNodeWorking) ? 16 : 8,
+                                        spreadRadius: isNodeWorking ? 2 : 1,
+                                      ),
+                                    ],
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        node.label,
+                                        style: const TextStyle(
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.bold,
+                                          color: AlphaColors.textPrimary,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      const SizedBox(height: 2),
+                                      Text(
+                                        nodeStatusText,
+                                        style: TextStyle(
+                                          fontSize: 9,
+                                          color: isNodeWorking ? AlphaColors.primaryCyanNeon : nodeColor,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: (isSelected ? AlphaColors.primaryCyanNeon : nodeColor)
-                                        .withOpacity(0.3),
-                                    blurRadius: isSelected ? 16 : 8,
-                                    spreadRadius: 1,
-                                  ),
-                                ],
                               ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    node.label,
-                                    style: const TextStyle(
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.bold,
-                                      color: AlphaColors.textPrimary,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  const SizedBox(height: 2),
-                                  Text(
-                                    node.type.toUpperCase(),
-                                    style: TextStyle(
-                                      fontSize: 9,
-                                      color: nodeColor,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                            );
+                          }).toList(),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+
+              // 2. Top Live Telemetry HUD Bar
+              Positioned(
+                top: 16,
+                left: 16,
+                right: 16,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                  decoration: AlphaColors.oledCardDecoration(
+                    surfaceColor: AlphaColors.surfaceLevel1.withOpacity(0.92),
+                    borderColor: isSystemActive ? AlphaColors.primaryCyanNeon.withOpacity(0.5) : AlphaColors.border,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            width: 8,
+                            height: 8,
+                            decoration: BoxDecoration(
+                              color: isSystemActive ? AlphaColors.primaryCyanNeon : AlphaColors.textMuted,
+                              shape: BoxShape.circle,
+                              boxShadow: isSystemActive
+                                  ? [
+                                      BoxShadow(
+                                        color: AlphaColors.primaryCyanNeon.withOpacity(0.8),
+                                        blurRadius: 8,
+                                        spreadRadius: 2,
+                                      ),
+                                    ]
+                                  : null,
                             ),
                           ),
-                        );
-                      }).toList(),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
-
-          // 2. Top Live Telemetry HUD Bar
-          Positioned(
-            top: 16,
-            left: 16,
-            right: 16,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-              decoration: AlphaColors.oledCardDecoration(
-                surfaceColor: AlphaColors.surfaceLevel1.withOpacity(0.9),
-                borderColor: AlphaColors.border,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        width: 8,
-                        height: 8,
-                        decoration: const BoxDecoration(
-                          color: AlphaColors.primaryCyan,
-                          shape: BoxShape.circle,
-                        ),
+                          const SizedBox(width: 8),
+                          Text(
+                            isSystemActive
+                                ? 'ARCHIFY LIVE • ${runningTasks.length + auditingTasks.length} RUNNING'
+                                : 'ARCHIFY STANDBY',
+                            style: TextStyle(
+                              fontSize: 11,
+                              fontWeight: FontWeight.bold,
+                              color: isSystemActive ? AlphaColors.primaryCyanNeon : AlphaColors.textMuted,
+                            ),
+                          ),
+                        ],
                       ),
-                      const SizedBox(width: 8),
-                      const Text(
-                        'ARCHIFY+ LIVE',
-                        style: TextStyle(
+                      Text(
+                        isSystemActive
+                            ? '$activeTaskName ($activeProgress%)'
+                            : '${_nodes.length} Nodes • ${_edges.length} Flows',
+                        style: AlphaTheme.monoStyle.copyWith(
                           fontSize: 11,
-                          fontWeight: FontWeight.bold,
-                          color: AlphaColors.primaryCyan,
+                          color: isSystemActive ? AlphaColors.textPrimary : AlphaColors.textSecondary,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                        decoration: AlphaColors.statusBadgeDecoration(
+                          statusColor: isSystemActive ? AlphaColors.primaryCyan : AlphaColors.successEmerald,
+                        ),
+                        child: Text(
+                          isSystemActive ? 'EXECUTING' : 'IDLE',
+                          style: TextStyle(
+                            fontSize: 9,
+                            fontWeight: FontWeight.bold,
+                            color: isSystemActive ? AlphaColors.primaryCyan : AlphaColors.successEmerald,
+                          ),
                         ),
                       ),
                     ],
                   ),
-                  Text(
-                    '${_nodes.length} Nodes • ${_edges.length} Flows',
-                    style: AlphaTheme.monoStyle.copyWith(fontSize: 11),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                    decoration: AlphaColors.statusBadgeDecoration(
-                      statusColor: AlphaColors.successEmerald,
-                    ),
-                    child: const Text(
-                      'CLEAN',
-                      style: TextStyle(
-                        fontSize: 9,
-                        fontWeight: FontWeight.bold,
-                        color: AlphaColors.successEmerald,
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
-            ),
-          ),
 
-          // 3. Floating Control Toolbar
-          Positioned(
-            bottom: 24,
-            right: 16,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                _buildFloatingButton(Icons.add, _zoomIn, 'Zoom In'),
-                const SizedBox(height: 8),
-                _buildFloatingButton(Icons.remove, _zoomOut, 'Zoom Out'),
-                const SizedBox(height: 8),
-                _buildFloatingButton(Icons.center_focus_strong, _resetZoom, 'Reset View'),
-                const SizedBox(height: 8),
-                _buildFloatingButton(
-                  _flowsActive ? Icons.waves : Icons.waves_outlined,
-                  () {
-                    setState(() {
-                      _flowsActive = !_flowsActive;
-                    });
-                  },
-                  'Toggle Flows',
-                  active: _flowsActive,
-                ),
-                const SizedBox(height: 8),
-                _buildFloatingButton(
-                  Icons.layers,
-                  () {
-                    setState(() {
-                      _showLegend = !_showLegend;
-                    });
-                  },
-                  'Legend',
-                  active: _showLegend,
-                ),
-              ],
-            ),
-          ),
-
-          // 4. Node Archetype Legend Overlay
-          if (_showLegend)
-            Positioned(
-              bottom: 24,
-              left: 16,
-              child: Container(
-                padding: const EdgeInsets.all(12),
-                decoration: AlphaColors.oledCardDecoration(
-                  surfaceColor: AlphaColors.surfaceLevel1.withOpacity(0.95),
-                  borderColor: AlphaColors.border,
-                ),
+              // 3. Floating Control Toolbar
+              Positioned(
+                bottom: 24,
+                right: 16,
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Text(
-                      'NODE ARCHETYPES',
-                      style: TextStyle(
-                        fontSize: 10,
-                        fontWeight: FontWeight.bold,
-                        color: AlphaColors.textMuted,
-                      ),
+                    _buildFloatingButton(Icons.add, _zoomIn, 'Zoom In'),
+                    const SizedBox(height: 8),
+                    _buildFloatingButton(Icons.remove, _zoomOut, 'Zoom Out'),
+                    const SizedBox(height: 8),
+                    _buildFloatingButton(Icons.center_focus_strong, _resetZoom, 'Reset View'),
+                    const SizedBox(height: 8),
+                    _buildFloatingButton(
+                      _flowsActive ? Icons.waves : Icons.waves_outlined,
+                      () {
+                        setState(() {
+                          _flowsActive = !_flowsActive;
+                        });
+                      },
+                      'Toggle Flows',
+                      active: _flowsActive,
                     ),
                     const SizedBox(height: 8),
-                    _buildLegendItem('Founder Terminal', AlphaColors.successEmerald),
-                    _buildLegendItem('Executive Agent', AlphaColors.accentPurple),
-                    _buildLegendItem('Core Service', AlphaColors.primaryCyan),
-                    _buildLegendItem('Vault Storage', AlphaColors.warningAmber),
+                    _buildFloatingButton(
+                      Icons.layers,
+                      () {
+                        setState(() {
+                          _showLegend = !_showLegend;
+                        });
+                      },
+                      'Legend',
+                      active: _showLegend,
+                    ),
                   ],
                 ),
               ),
-            ),
-        ],
+
+              // 4. Node Archetype Legend Overlay
+              if (_showLegend)
+                Positioned(
+                  bottom: 24,
+                  left: 16,
+                  child: Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: AlphaColors.oledCardDecoration(
+                      surfaceColor: AlphaColors.surfaceLevel1.withOpacity(0.95),
+                      borderColor: AlphaColors.border,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Text(
+                          'NODE ARCHETYPES',
+                          style: TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold,
+                            color: AlphaColors.textMuted,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        _buildLegendItem('Founder Terminal', AlphaColors.successEmerald),
+                        _buildLegendItem('Executive Agent', AlphaColors.accentPurple),
+                        _buildLegendItem('Core Service', AlphaColors.primaryCyan),
+                        _buildLegendItem('Vault Storage', AlphaColors.warningAmber),
+                      ],
+                    ),
+                  ),
+                ),
+            ],
+          );
+        },
       ),
     );
   }
 
-  Widget _buildLegendItem(String label, Color color) {
+  Widget _buildLegendItem  Widget _buildLegendItem(String label, Color color) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 3),
       child: Row(

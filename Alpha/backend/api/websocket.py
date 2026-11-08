@@ -505,6 +505,31 @@ class ConnectionManager:
         ).model_dump()
         return self.broadcast("telemetry_heartbeat", payload)
 
+    def emit_thread_message(
+        self,
+        sender: str,
+        content: str,
+        message_type: str = "MESSAGE",
+        to_agents: Optional[List[str]] = None,
+        project_id: Optional[str] = None,
+        model_used: Optional[str] = None,
+        tokens_used: int = 0,
+    ) -> int:
+        """Emit 'thread_message' for real-time Boardroom Group Chat."""
+        payload = {
+            "message_id": f"msg_{uuid.uuid4().hex[:8]}",
+            "sender": sender,
+            "content": content,
+            "timestamp": datetime.now(timezone.utc).strftime("%H:%M:%S"),
+            "message_type": message_type,
+            "to_agents": to_agents or [],
+            "project_id": project_id,
+            "model_used": model_used,
+            "tokens_used": tokens_used,
+            "status": "sent",
+        }
+        return self.broadcast("thread_message", payload, project_id=project_id)
+
     # ------------------------------------------------------------------------
     # Subsystem Telemetry Hooks (Orchestrator, ThreadManager)
     # ------------------------------------------------------------------------

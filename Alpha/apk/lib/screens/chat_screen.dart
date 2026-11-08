@@ -283,12 +283,54 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
+  Color _getSenderColor(String sender) {
+    switch (sender.toUpperCase()) {
+      case 'FOUNDER':
+        return AlphaColors.successEmerald;
+      case 'CEO':
+        return AlphaColors.primaryCyan;
+      case 'CTO':
+        return AlphaColors.secondaryBlue;
+      case 'CDO':
+        return AlphaColors.accentPurple;
+      case 'COO':
+        return const Color(0xFF14B8A6);
+      case 'CPO':
+        return const Color(0xFFEC4899);
+      case 'CMO':
+        return AlphaColors.warningAmber;
+      case 'CAO-CLAUDE':
+        return AlphaColors.accentViolet;
+      case 'CAO-CHATGPT':
+        return const Color(0xFF10A37F);
+      case 'BOARDROOM':
+        return AlphaColors.primaryCyanNeon;
+      default:
+        if (sender.contains('CAO')) return AlphaColors.accentViolet;
+        return AlphaColors.secondaryBlue;
+    }
+  }
+
+  String _getSenderInitials(String sender) {
+    if (sender.isEmpty) return '??';
+    if (sender.length <= 3) return sender.toUpperCase();
+    if (sender.startsWith('CAO-')) return sender.replaceAll('CAO-', 'C-');
+    return sender.substring(0, 3).toUpperCase();
+  }
+
   Widget _buildMessageBubble(ThreadMessage msg) {
+    if (msg.content.trim().isEmpty) {
+      return const SizedBox.shrink();
+    }
+
     final isFounder = msg.isFromFounder;
 
     if (_isToolCallout(msg.content)) {
       return _buildToolCalloutCard(msg);
     }
+
+    final senderColor = _getSenderColor(msg.sender);
+    final senderInitials = _getSenderInitials(msg.sender);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
@@ -303,14 +345,14 @@ class _ChatScreenState extends State<ChatScreen> {
               decoration: BoxDecoration(
                 color: AlphaColors.surfaceLevel3,
                 shape: BoxShape.circle,
-                border: Border.all(color: AlphaColors.primaryCyan, width: 1.5),
+                border: Border.all(color: senderColor, width: 1.5),
               ),
-              child: const Text(
-                'CEO',
+              child: Text(
+                senderInitials,
                 style: TextStyle(
                   fontSize: 10,
                   fontWeight: FontWeight.bold,
-                  color: AlphaColors.primaryCyan,
+                  color: senderColor,
                 ),
               ),
             ),
@@ -332,7 +374,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 border: Border.all(
                   color: isFounder
                       ? AlphaColors.primaryCyan.withOpacity(0.5)
-                      : AlphaColors.border,
+                      : senderColor.withOpacity(0.35),
                 ),
               ),
               child: Column(
@@ -344,15 +386,33 @@ class _ChatScreenState extends State<ChatScreen> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        msg.sender,
+                        msg.sender.isNotEmpty ? msg.sender : 'Executive',
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
                           color: isFounder
                               ? AlphaColors.primaryCyan
-                              : AlphaColors.secondaryBlue,
+                              : senderColor,
                         ),
                       ),
+                      if (msg.toAgents.isNotEmpty) ...[
+                        const SizedBox(width: 6),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
+                          decoration: BoxDecoration(
+                            color: senderColor.withOpacity(0.15),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: Text(
+                            '➔ ${msg.toAgents.join(', ')}',
+                            style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.w600,
+                              color: senderColor,
+                            ),
+                          ),
+                        ),
+                      ],
                       const SizedBox(width: 8),
                       Text(
                         msg.timestamp,
@@ -380,7 +440,10 @@ class _ChatScreenState extends State<ChatScreen> {
                       ),
                       child: Text(
                         '${msg.modelUsed} • ${msg.tokensUsed} tokens',
-                        style: AlphaTheme.monoStyle.copyWith(fontSize: 10),
+                        style: AlphaTheme.monoStyle.copyWith(
+                          fontSize: 9,
+                          color: AlphaColors.textMuted,
+                        ),
                       ),
                     ),
                   ],
@@ -397,7 +460,11 @@ class _ChatScreenState extends State<ChatScreen> {
                 shape: BoxShape.circle,
                 border: Border.all(color: AlphaColors.successEmerald, width: 1.5),
               ),
-              child: const Icon(Icons.person, size: 14, color: AlphaColors.successEmerald),
+              child: const Icon(
+                Icons.person_outline,
+                size: 14,
+                color: AlphaColors.successEmerald,
+              ),
             ),
           ],
         ],

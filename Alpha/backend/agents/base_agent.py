@@ -774,9 +774,12 @@ class BaseExecutiveAgent(abc.ABC):
         # Assemble packed context
         packed = []
         if mem_snippets:
-            packed.append("## RELEVANT AGENT MEMORY:")
-            packed.extend(mem_snippets)
-            packed.append("")
+            # Filter out any error responses or observation echoes
+            clean_snippets = [s for s in mem_snippets if "can't help with this request" not in s and "Inference output for" not in s]
+            if clean_snippets:
+                packed.append("## RELEVANT AGENT MEMORY:")
+                packed.extend(clean_snippets)
+                packed.append("")
 
         packed.append("## TASK INPUT:")
         packed.append(task_input)
